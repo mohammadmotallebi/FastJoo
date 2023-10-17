@@ -69,8 +69,6 @@ class Role extends Model
         if (is_string($ability)) {
             $ability = Ability::whereName($ability)->firstOrFail();
         }
-
         $this->abilities()->syncWithoutDetaching($ability);
     }
-
 }

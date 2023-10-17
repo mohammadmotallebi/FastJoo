@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -87,13 +88,20 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the role that owns the User
+     * Get the abilities for the User
      *
-     * @return array
+     * @return Collection
      */
     public function abilities(): array
     {
-        return $this->role()->first()->abilities()->get()->pluck('ability')->toArray();
+        $abilities = $this->role()->first()?->abilities()->get();
+        $abilitiesArray = [];
+        if ($abilities) {
+            foreach ($abilities as $ability) {
+                $abilitiesArray += [$ability->ability.'-'.$ability->table_name];
+            }
+        }
+        return $abilitiesArray;
     }
 
     /**
@@ -116,6 +124,21 @@ class User extends Authenticatable
         return $this->getRoleAttribute() === 'admin';
     }
 
+    public function hasAbility(array $abilities): bool
+    {
+        return count(array_intersect($abilities, $this->abilities())) > 0;
+    }
+
+    /**
+     * Check if user has role
+     *
+     * @param  Role  $role
+     * @return bool
+     */
+    public function hasRole(Role $role): bool
+    {
+        return $this->getRoleAttribute() === $role->role;
+    }
     /**
      * Check if user is user
      *

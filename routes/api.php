@@ -16,7 +16,14 @@ use Illuminate\Support\Facades\Gate;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user()->allowTo('view');
-});
+Route::middleware(['auth:sanctum'])->get('/user', function (User $user) {
+    return auth()->user();
+})->can('view-users');
+
+//    return collect(DB::select('show tables'))->map(function ($val) {
+//        foreach ($val as $key => $tbl) {
+//            return $tbl;
+//        }
+//    });
+
 

@@ -23,17 +23,16 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerPolicies();
+        foreach (\App\Models\Ability::all() as $ability) {
+            \Gate::define($ability->ability.'-'.$ability->table_name, function (User $user){
+                $abilities = $user->abilities();
+                return $user->hasAbility($abilities)
+                    ? Response::allow()
+                    : Response::deny('You must be an administrator.');
+            });
+        }
 
 
-
-        \Gate::define('view-user', function (User $user) {
-            return $user->isAdmin()
-                ? Response::allow()
-                : Response::deny('You must be an administrator.');
-        });
-        \Gate::define('user', function (User $user) {
-            return $user->role === 'user';
-        });
 
 
         ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
@@ -42,4 +41,6 @@ class AuthServiceProvider extends ServiceProvider
 
         //
     }
+
+
 }
