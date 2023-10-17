@@ -17,6 +17,6 @@ use Illuminate\Support\Facades\Gate;
 */
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return Gate::inspect('view-user', User::class);
+    return $request->user()->allowTo('view');
 });
 

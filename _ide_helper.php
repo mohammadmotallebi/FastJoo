@@ -18771,7 +18771,7 @@
      * 
      *
      */ 
-        class Request {public mixed $email;public mixed $password;public mixed $name;
+        class Request {
                     /**
          * 
          *
