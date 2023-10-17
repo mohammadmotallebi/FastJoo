@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -67,9 +69,9 @@ class User extends Authenticatable
     /**
      * Get the role that owns the User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
@@ -77,9 +79,9 @@ class User extends Authenticatable
     /**
      * Get the personal_access_tokens that owns the User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function personal_access_tokens(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function personal_access_tokens(): HasMany
     {
         return $this->hasMany(PersonalAccessToken::class);
     }
@@ -87,7 +89,7 @@ class User extends Authenticatable
     /**
      * Get the role that owns the User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return array
      */
     public function abilities(): array
     {
@@ -104,21 +106,41 @@ class User extends Authenticatable
         return $this->role()->first()->role;
     }
 
+    /**
+     * Check if user is admin
+     *
+     * @return bool
+     */
     public function isAdmin(): bool
     {
         return $this->getRoleAttribute() === 'admin';
     }
 
+    /**
+     * Check if user is user
+     *
+     * @return bool
+     */
     public function isUser(): bool
     {
         return $this->getRoleAttribute() === 'user';
     }
 
+    /**
+     * Check if user is super admin
+     *
+     * @return bool
+     */
     public function isSuperAdmin(): bool
     {
         return $this->getRoleAttribute() === 'super_admin';
     }
 
+    /**
+     * Check if user is super admin or admin
+     *
+     * @return bool
+     */
     public function isSuperAdminOrAdmin(): bool
     {
         return $this->getRoleAttribute() === 'super_admin' || $this->getRoleAttribute() === 'admin';
