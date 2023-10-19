@@ -1,0 +1,85 @@
+{
+  "extends": "next/core-web-vitals",
+    "rules": {
+        "next/no-css-tags": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+        "react/jsx-props-no-spreading": "off",
+        "react/require-default-props": "off",
+        "react/forbid-prop-types": "off",
+        "react/prop-types": "off",
+        "react/jsx-uses-react": "off"
+    },
+    "globals": {
+        "React": "writable",
+        "ReactDOM": "writable",
+        "ReactGA": "writable",
+        "window": "writable",
+        "document": "writable",
+        "localStorage": "writable",
+        "fetch": "writable",
+        "Headers": "writable",
+        "Request": "writable"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        },
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        },
+        "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
+        "import/ignore": [
+            "node_modules",
+            "\\.(coffee|scss|css|less|hbs|svg|json)$"
+        ]
+    },
+    "overrides": [
+        {
+            "files": ["*.ts", "*.tsx"],
+            "parser": "@typescript-eslint/parser",
+            "parserOptions": {
+                "project": "./tsconfig.json"
+            },
+            "plugins": ["@typescript-eslint"],
+    "extends": [
+                    "plugin:@typescript-eslint/recommended",
+                    "plugin:import/typescript",
+                    "plugin:react/recommended",
+                    "plugin:react-hooks/recommended",
+                    "plugin:jsx-a11y/recommended",
+                    "plugin:prettier/recommended",
+                    "prettier/@typescript-eslint",
+                    "prettier/react"
+                ],
+            "rules": {
+                "react/prop-types": "off",
+                "react/require-default-props": "off",
+                "react/jsx-props-no-spreading": "off",
+                "react/forbid-prop-types": "off",
+                "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+                "react/jsx-uses-react": "off",
+                "react/react-in-jsx-scope": "off",
+                "react/jsx-uses-vars": "off",
+                "react/jsx-no-undef": "off",
+                "react/jsx-curly-brace-presence": "off",
+                "react/jsx-curly-newline": "off",
+                "react/jsx-wrap-multilines": "off",
+                "react/jsx-one-expression-per-line": "off",
+                "react/jsx-indent": "off",
+                "react/jsx-indent-props": "off",
+                "react/jsx-max-props-per-line": "off",
+                "react/jsx-first-prop-new-line": "off",
+                "react/jsx-closing-bracket-location": "off",
+                "react/jsx-closing-tag-location": "off",
+                "react/jsx-tag-spacing": "off",
+                "react/jsx-curly-spacing": "off"
+            }
+        }
+    ]
+}
