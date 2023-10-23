@@ -11,6 +11,7 @@ jobs:
       DB_PASSWORD: 57041362
       BROADCAST_DRIVER: log
       CACHE_DRIVER: file
+      DB_PORT: 3306
       
     strategy:
       fail-fast: false
@@ -70,7 +71,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Run Migration
-        run: php artisan migrate -v
+        run: php artisan migrate
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
