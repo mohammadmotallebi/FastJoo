@@ -122,9 +122,21 @@ return [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
         ],
+        'browser' => [
+            'driver' => 'monolog',
+            'handler' => Monolog\Handler\BrowserConsoleHandler::class,
+            'formatter' => Monolog\Formatter\HtmlFormatter::class,
+            'formatter_with' => [
+                'dateFormat' => 'Y-m-d',
+            ],
+        ],
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+        ],
+        'custom' => [
+            'driver' => 'custom',
+            'via' => App\Logging\Logging::class,
         ],
     ],
 
