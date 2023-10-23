@@ -10,27 +10,8 @@ jobs:
       DB_USERNAME: root
       DB_PASSWORD: 57041362
       BROADCAST_DRIVER: log
-      CACHE_DRIVER: redis
-      QUEUE_CONNECTION: redis
-      SESSION_DRIVER: redis
-
-    # Docs: https://docs.github.com/en/actions/using-containerized-services
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: laravel
-        ports:
-          - 3306/tcp
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
-      redis:
-        image: redis
-        ports:
-          - 6379/tcp
-        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      CACHE_DRIVER: file
+      
     strategy:
       fail-fast: false
       matrix:
@@ -46,6 +27,29 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
           coverage: xdebug
+      - name: Setup MySQL
+  # You may pin to the exact commit or the version.
+  # uses: mirromutth/mysql-action@de1fba8b3f90ce8db80f663a7043be3cf3231248
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          # The port of host
+          host port: 3306
+          # The port of container
+          container port: 3306
+          # --character-set-server - The character set of MySQL server
+          character set server: utf8mb4
+          # --collation-server - The character collation of MySQL server
+          collation server: utf8mb4_general_ci
+          # Version of MySQL to use
+          mysql version: latest
+          # MYSQL_ROOT_PASSWORD - root superuser password
+          mysql root password: 57041362
+          # MYSQL_DATABASE - name for the default database that is created
+          mysql database: laravel_fastjoo
+          # MYSQL_USER - create the specified user with superuser power for created database
+          mysql user: root
+          # MYSQL_PASSWORD - specified superuser password which user is power for created database
+          mysql password: 57041362
 
       # Local MySQL service in GitHub hosted environments is disabled by default.
       # If you are using it instead of service containers, make sure you start it.
