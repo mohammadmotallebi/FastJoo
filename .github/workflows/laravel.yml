@@ -55,7 +55,7 @@ jobs:
       # Local MySQL service in GitHub hosted environments is disabled by default.
       # If you are using it instead of service containers, make sure you start it.
       - name: Start mysql service
-        run: sudo systemctl start mysql.service && mysql -h localhost -u root -p57041362 -e "SET PASSWORD FOR root@localhost = PASSWORD('57041362');"
+        run: sudo systemctl start mysql.service && mysql -h mysql -u root -p57041362 -e "SET PASSWORD FOR root@localhost = PASSWORD('57041362');"
       
       - name: MySQL DB Create
         run: mysql -h localhost -u root -p57041362 -e "create database laravel_fastjoo"
