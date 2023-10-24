@@ -6,7 +6,6 @@ jobs:
     name: Laravel (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     env:
-      DB_HOST: localhost
       DB_DATABASE: laravel_fastjoo
       DB_USERNAME: root
       DB_PASSWORD: 57041362
