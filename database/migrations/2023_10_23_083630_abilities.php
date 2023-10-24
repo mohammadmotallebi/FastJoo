@@ -39,6 +39,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        \DB::statement('CREATE DATABASE IF NOT EXISTS laravel_fastjoo CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
           Schema::create('abilities', function (Blueprint $table) {
                 $table->id();
                 $table->string('ability_name')->nullable();
