@@ -1,6 +1,5 @@
 'use client'
 import React, {useEffect, useRef} from 'react';
-import Layout from './layout'
 import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -13,14 +12,13 @@ import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import styled from '@emotion/styled'
 import {useLazyLoginQuery, useLazyAuthQuery} from "@services/api";
-import {AppDispatch} from "@redux/store";
-import {useDispatch} from "react-redux";
-import {setToken, setUser} from "@redux/slices/authSlice";
+import store from '@redux/store'
 import LoadingButton from '@mui/lab/LoadingButton';
 import LoginIcon from '@mui/icons-material/Login';
 import Snackbar from '@mui/material/Snackbar';
 import {Alert} from '@mui/material';
 import Slide, {SlideProps} from '@mui/material/Slide';
+import { useRouter } from "next/navigation";
 
 
 const Img = styled.img`
@@ -38,11 +36,11 @@ const Item = styled(Grid)`
 
 
 export default function Page() {
+    const [isLoggedIn, setIsLoggedIn] = React.useState(false)
     // declare ref for email & password string type in TypeScript
     const email = useRef<HTMLInputElement>(null)
     const password = useRef<HTMLInputElement>(null)
-    const dispatch = useDispatch<AppDispatch>()
-
+    const router = useRouter()
     interface User {
         email: string,
         password: string
@@ -58,62 +56,50 @@ export default function Page() {
     */
     // @ts-ignore
     const [login, {isLoading, error}] = useLazyLoginQuery()
-
-    const [auth, {isSuccess, isError}] = useLazyAuthQuery()
+    const [auth] = useLazyAuthQuery()
 
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState('')
 
 
-    const handleLogin = React.useCallback(async () => {
+    const handleLogin = async () => {
         const user: User = {
-            email: email.current?.value,
-            password: password.current?.value
+            // @ts-ignore
+            email: email.current?.value, password: password.current?.value
         }
 
         const result = await login(user)
-
-        // @ts-ignore
-        if (result.isSuccess) {
-            console.log(result.data)
-
-            dispatch(setToken(result.data.token))
-            dispatch(setUser(result.data.user))
+        if (store.getState().auth.isLoggedIn) {
+            console.log('Store ', store.getState())
+            console.log('Result ', result)
+            setIsLoggedIn(true)
+            router.push('/pages/dashboard')
         }
         // @ts-ignore
         if (result.isError) {
             console.log(result.error)
+            // @ts-ignore
             setMessage(result.error.data.message)
             setOpen(true)
         }
 
 
-    }, [login, dispatch, setMessage, setOpen])
+    }
+
+    useEffect(() => {
+        // @ts-ignore
+        store.dispatch({type: 'auth/auth'})
+        if (store.getState().auth.isLoggedIn) {
+            router.push('/pages/dashboard')
+        }
+
+    }, [isLoggedIn]);
 
 
         // check auth
-        const checkAuth = async () => {
-            // @ts-ignore
-            const result = await auth()
-            // @ts-ignore
-            if (result.isSuccess) {
-                console.log(result.data)
-                dispatch(setToken(result.data.token))
-                dispatch(setUser(result.data.user))
-            }
-            // @ts-ignore
-            if (result.isError) {
-                console.log(result.error)
-                setMessage(result.error.data.message)
-                setOpen(true)
-            }
-        }
-        useEffect(() => {
-            checkAuth()
-        }, [])
 
     return (
-        <Layout>
+        <div className="flex">
             <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}
                       anchorOrigin={{vertical: 'top', horizontal: 'center'}}
                       TransitionComponent={(props: SlideProps) => <Slide {...props} direction="down"/>}>
@@ -193,6 +179,6 @@ export default function Page() {
                     <Img src="/dist/images/Project_158-03.jpg" alt="random" loading='lazy'/>
                 </Grid>
             </Grid>
-        </Layout>
+        </div>
     );
 }

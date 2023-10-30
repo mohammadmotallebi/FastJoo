@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { api } from '@services/api';
+
 /*
 {
     "status": "success",
@@ -16,8 +17,8 @@ import { api } from '@services/api';
 }
 */
 const initialState = {
-    token: '',
     user: {},
+    token: '',
     isLoggedIn: false,
     isLoading: false,
     error: null,
@@ -26,11 +27,11 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setToken(state, action) {
-            state.token = action.payload
-        },
         setUser(state, action) {
             state.user = action.payload
+        },
+        setToken(state, action) {
+            state.token = action.payload
         },
         setIsLoggedIn(state, action) {
             state.isLoggedIn = action.payload
@@ -40,7 +41,7 @@ const authSlice = createSlice({
         },
         setError(state, action) {
             state.error = action.payload
-        },
+        }
     },
     extraReducers: (builder) => {
         builder.addMatcher(api.endpoints.login.matchPending, (state, action) => {
@@ -50,11 +51,54 @@ const authSlice = createSlice({
             state.isLoading = false
             state.isLoggedIn = true
             // @ts-ignore
+            state.user = action.payload.user
+            // @ts-ignore
             state.token = action.payload.token
+        })
+        builder.addMatcher(api.endpoints.login.matchRejected, (state, action) => {
+            state.isLoading = false
+            // @ts-ignore
+            state.error = action.payload
+        })
+        builder.addMatcher(api.endpoints.register.matchPending, (state, action) => {
+            state.isLoading = true
+
+        })
+        builder.addMatcher(api.endpoints.register.matchFulfilled, (state, action) => {
+            state.isLoading = false
+            state.isLoggedIn = true
             // @ts-ignore
             state.user = action.payload.user
         })
-        builder.addMatcher(api.endpoints.login.matchRejected, (state, action) => {
+        builder.addMatcher(api.endpoints.register.matchRejected, (state, action) => {
+            state.isLoading = false
+            // @ts-ignore
+            state.error = action.payload
+        })
+        builder.addMatcher(api.endpoints.logout.matchPending, (state, action) => {
+            state.isLoading = true
+        })
+        builder.addMatcher(api.endpoints.logout.matchFulfilled, (state, action) => {
+            state.isLoading = false
+            state.isLoggedIn = false
+            state.user = {}
+
+        })
+        builder.addMatcher(api.endpoints.logout.matchRejected, (state, action) => {
+            state.isLoading = false
+            // @ts-ignore
+            state.error = action.payload
+        })
+        builder.addMatcher(api.endpoints.auth.matchPending, (state, action) => {
+            state.isLoading = true
+        })
+        builder.addMatcher(api.endpoints.auth.matchFulfilled, (state, action) => {
+            state.isLoading = false
+            state.isLoggedIn = true
+            // @ts-ignore
+            state.user = action.payload.user
+        })
+        builder.addMatcher(api.endpoints.auth.matchRejected, (state, action) => {
             state.isLoading = false
             // @ts-ignore
             state.error = action.payload
@@ -62,5 +106,6 @@ const authSlice = createSlice({
     }
 })
 
-export const { setToken, setUser, setIsLoggedIn, setIsLoading, setError } = authSlice.actions
+export const {setToken, setUser, setIsLoggedIn, setIsLoading, setError } = authSlice.actions
+
 export default authSlice.reducer

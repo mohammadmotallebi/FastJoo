@@ -32,6 +32,10 @@ import {
     TableBarTwoTone,
     TableChartTwoTone
 } from "@mui/icons-material";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "@redux/store";
+import {useLazyLogoutQuery} from "@services/api";
+import {useRouter} from "next/navigation";
 
 const drawerWidth = 240;
 
@@ -110,6 +114,10 @@ export default function MiniDrawer({ children }: { children: React.ReactNode}) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
         React.useState<null | HTMLElement>(null);
+    const dispatch = useDispatch<AppDispatch>()
+    const router = useRouter()
+
+    const [logout, {isSuccess, isError}] = useLazyLogoutQuery()
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -135,6 +143,13 @@ export default function MiniDrawer({ children }: { children: React.ReactNode}) {
         setOpen(true);
     };
 
+    // logout
+    const handleLogout = () => {
+        // @ts-ignore
+        logout()
+        router.push('/auth/login')
+    }
+
     const handleDrawerClose = () => {
         setOpen(false);
     };
@@ -157,6 +172,9 @@ export default function MiniDrawer({ children }: { children: React.ReactNode}) {
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+
+
         </Menu>
     );
 
