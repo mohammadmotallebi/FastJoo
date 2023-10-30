@@ -6,7 +6,6 @@ jobs:
     name: Laravel (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     env:
-      DB_HOST: localhost
       DB_DATABASE: laravel_fastjoo
       DB_USERNAME: root
       DB_PASSWORD: 57041362
@@ -55,8 +54,11 @@ jobs:
 
       # Local MySQL service in GitHub hosted environments is disabled by default.
       # If you are using it instead of service containers, make sure you start it.
-      # - name: Start mysql service
-      #   run: sudo systemctl start mysql.service
+      - name: Start mysql service
+        run: sudo systemctl start mysql.service && mysql -h 127.0.0.1 -u root -p57041362 -e "SET PASSWORD FOR root@localhost = PASSWORD('57041362');"
+      
+      - name: MySQL DB Create
+        run: mysql -h localhost -u root -p57041362 -e "create database laravel_fastjoo"
 
       - name: Get composer cache directory
         id: composer-cache
