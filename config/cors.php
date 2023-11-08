@@ -14,8 +14,8 @@ return [
     | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
     |
     */
-
-    'paths' => ['*', 'sanctum/csrf-cookie'],
+    //disable cors for local development all together
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'logout', 'register', 'password/email', 'password/reset', 'email/verify', 'email/verification-notification', 'email/resend', 'user/profile-information', 'user/password', 'user/two-factor-authentication', 'user/two-factor-qr-code'],
 
     'allowed_methods' => ['*'],
 
@@ -29,6 +29,7 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => true,
+    'supports_credentials' => false,
+
 
 ];

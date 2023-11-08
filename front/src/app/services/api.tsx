@@ -20,14 +20,13 @@ export const api = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://fastjoo.mofacode.ir/',
+        credentials: 'include',
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).auth.token
-
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`)
             }
             headers.set('Accept', 'application/json')
-            headers.set('Access-Control-Allow-Credentials', 'true')
             headers.set('X-API-KEY', 'x4CsiyWKKNSl1P3FS2vWPwiGhwTLdqUCVynogB3rEvFtRJLTs8aEBZywfAAL')
             return headers
         }

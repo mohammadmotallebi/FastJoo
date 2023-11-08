@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class Authenticate extends Middleware
 {
+
     /**
      * Determine if the user is logged in to any of the given guards.
      *
