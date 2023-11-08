@@ -16,33 +16,11 @@ use Illuminate\Support\Facades\Gate;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/auth', function () {
-    if (auth()->check()) {
-        return response()->json([
-            'authenticated' => true,
-            'user' => auth()->user()
-        ]);
-    }
-
-    return response()->json([
-        'authenticated' => false,
-        'user' => null
-    ]);
+Route::middleware(['auth:sanctum'])->get('/auth', function (Request $request) {
+   dd(auth());
 })->can('view-users');
 
-Route::get('/decrypt', function (Request $request) {
-    try {
-        return response()->json([
-            'status' => 'success',
-            'decrypted' => decrypt('8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4', true)
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => 'error',
-            'message' => $e->getMessage()
-        ]);
-    }
-});
+
 
 //    return collect(DB::select('show tables'))->map(function ($val) {
 //        foreach ($val as $key => $tbl) {

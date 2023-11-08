@@ -4,8 +4,10 @@ import Menu from "@components/Menu";
 import Loading from "@components/Loading";
 import React from "react";
 import store from '@redux/store'
+import {useRouter} from "next/navigation";
 export default function async () {
     const [isPageLoading, setIsPageLoading] = React.useState(true);
+    const router = useRouter()
 
     React.useEffect(() => {
         // @ts-ignore
@@ -13,7 +15,7 @@ export default function async () {
         if (store.getState().auth.isLoggedIn) {
             setIsPageLoading(false)
         }else {
-            setIsPageLoading(true)
+            router.push('/auth/login')
         }
 
     }, [])

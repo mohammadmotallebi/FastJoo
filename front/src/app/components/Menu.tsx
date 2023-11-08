@@ -147,7 +147,6 @@ export default function MiniDrawer({ children }: { children: React.ReactNode}) {
     const handleLogout = () => {
         // @ts-ignore
         logout()
-        router.push('/auth/login')
     }
 
     const handleDrawerClose = () => {

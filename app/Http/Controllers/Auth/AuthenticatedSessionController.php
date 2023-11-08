@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Crypt;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
+    /*
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): \Illuminate\Http\JsonResponse
@@ -26,7 +26,7 @@ class AuthenticatedSessionController extends Controller
             return response()->json([
                 'status' => 'success',
                 'user' => $request->user(),
-                'token' => 'Bearer '.$request->user()->createToken('token')->accessToken->token
+                'token' => 'Bearer '.$request->user()->createToken('token')->plainTextToken
             ]);
     }
 
@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request): JsonResponse
     {
 
-        $request->user()->tokens()->delete();
+        $request->user()->personal_access_tokens()->delete();
 
         Auth::guard('web')->logout();
 
