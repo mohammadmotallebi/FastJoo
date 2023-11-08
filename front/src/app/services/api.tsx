@@ -19,8 +19,7 @@ export const redirect = (path: string) => {
 export const api = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://localhost:4443/',
-        credentials: 'include',
+        baseUrl: 'https://fastjoo.mofacode.ir/',
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).auth.token
 
