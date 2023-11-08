@@ -25,7 +25,7 @@ Route::prefix('api')->group(function () {
     require __DIR__.'/api.php';
 });
 Route::get('/decrypt', function (Request $request) {
-    return phpinfo();
+    return config('database.connections.mysql.database');
 });
 
 require __DIR__.'/auth.php';

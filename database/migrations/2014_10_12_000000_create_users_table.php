@@ -27,8 +27,8 @@ return new class extends Migration
 
      public function up(): void
      {
-         // create database laravel_fastjoo if not exist with default character set utf8mb4 collate utf8mb4_unicode_ci;
-         \DB::statement('CREATE DATABASE IF NOT EXISTS laravel_fastjoo CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
+         $db = config('database.connections.mysql.database');
+         \DB::statement("CREATE DATABASE IF NOT EXISTS {$db} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
 
          // create table users
          Schema::create('users', function (Blueprint $table) {

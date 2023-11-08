@@ -1,0 +1,44 @@
+2023/11/07 19:26:42 [emerg] 31260#31676: bind() to 0.0.0.0:8443 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+2023/11/07 19:26:52 [emerg] 14556#30152: bind() to 0.0.0.0:8443 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+2023/11/07 19:27:12 [emerg] 2716#29700: bind() to 0.0.0.0:8443 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+2023/11/07 19:27:22 [emerg] 22116#26600: bind() to 0.0.0.0:8443 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+2023/11/07 19:27:52 [emerg] 27932#31628: bind() to 0.0.0.0:8443 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+2023/11/07 19:28:02 [emerg] 12516#31072: bind() to 0.0.0.0:8443 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+2023/11/07 19:29:02 [emerg] 12976#28640: bind() to 0.0.0.0:8443 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+2023/11/07 19:29:12 [emerg] 31888#30152: bind() to 0.0.0.0:8443 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+2023/11/07 19:31:25 [error] 25716#14092: *1 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9003", host: "localhost:7000"
+2023/11/07 19:31:27 [error] 25716#14092: *1 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9004", host: "localhost:7000"
+2023/11/07 19:32:04 [error] 25716#14092: *9 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9004", host: "localhost:7443"
+2023/11/07 19:32:06 [error] 25716#14092: *9 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9003", host: "localhost:7443"
+2023/11/07 19:33:00 [error] 25716#14092: *14 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9004", host: "localhost:7000"
+2023/11/07 19:33:02 [error] 25716#14092: *14 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9003", host: "localhost:7000"
+2023/11/07 19:33:11 [notice] 27444#30436: signal process started
+2023/11/07 19:35:56 [error] 26184#28080: *8 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9003", host: "localhost:7000"
+2023/11/07 19:35:58 [error] 26184#28080: *8 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9004", host: "localhost:7000"
+2023/11/07 19:36:29 [notice] 28496#13892: signal process started
+2023/11/07 19:36:48 [notice] 32056#7912: signal process started
+2023/11/07 19:38:16 [notice] 29524#30584: signal process started
+2023/11/07 19:47:13 [notice] 29612#16604: signal process started
+2023/11/07 19:47:50 [error] 27584#27200: *2 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9003", host: "localhost:7000"
+2023/11/07 19:47:52 [error] 27584#27200: *2 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9004", host: "localhost:7000"
+2023/11/07 19:50:14 [emerg] 22708#29896: invalid parameter "localhost" in C:/laragon/etc/nginx/sites-enabled/00-default.conf:11
+2023/11/07 19:53:13 [notice] 10316#13692: signal process started
+2023/11/07 19:57:02 [notice] 27748#9136: signal process started
+2023/11/07 19:57:55 [notice] 18708#27728: signal process started
+2023/11/07 20:03:11 [error] 12372#29348: *4 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9003", host: "localhost:7000"
+2023/11/07 20:03:13 [error] 12372#29348: *4 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9004", host: "localhost:7000"
+2023/11/07 20:05:56 [notice] 23056#31860: signal process started
+2023/11/07 20:06:11 [notice] 3508#22512: signal process started
+2023/11/07 20:09:25 [notice] 4036#10044: signal process started
+2023/11/07 20:19:50 [notice] 20568#27808: signal process started
+2023/11/07 20:20:01 [notice] 13232#28716: signal process started
+2023/11/07 20:23:49 [error] 9896#20724: *87 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9003", host: "localhost:7000"
+2023/11/07 20:23:51 [error] 9896#20724: *87 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9004", host: "localhost:7000"
+2023/11/07 20:24:07 [error] 9896#20724: *93 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://127.0.0.1:9004", host: "localhost:7000"
+2023/11/07 20:24:09 [error] 9896#20724: *93 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://127.0.0.1:9003", host: "localhost:7000"
+2023/11/07 20:24:27 [error] 9896#20724: *98 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /index.php?decrypt HTTP/1.1", upstream: "fastcgi://127.0.0.1:9004", host: "localhost:7000"
+2023/11/07 20:24:29 [error] 9896#20724: *98 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /index.php?decrypt HTTP/1.1", upstream: "fastcgi://127.0.0.1:9003", host: "localhost:7000"
+2023/11/07 20:24:41 [error] 9896#20724: *103 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /?decrypt HTTP/1.1", upstream: "fastcgi://127.0.0.1:9004", host: "localhost:7000"
+2023/11/07 20:24:43 [error] 9896#20724: *103 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /?decrypt HTTP/1.1", upstream: "fastcgi://127.0.0.1:9003", host: "localhost:7000"
+2023/11/07 20:25:41 [notice] 13256#20064: signal process started
+2023/11/07 20:31:05 [notice] 3620#30436: signal process started
