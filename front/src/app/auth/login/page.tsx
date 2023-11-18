@@ -55,45 +55,33 @@ export default function Page() {
     useLoginMutation is a hook, so it can only be called inside a function component. You can't call it inside a class component.
     */
     // @ts-ignore
-    const [login, {isLoading, error}] = useLazyLoginQuery()
-    const [auth] = useLazyAuthQuery()
-
-    const [open, setOpen] = React.useState(false);
-    const [message, setMessage] = React.useState('')
+    const [login, {data, isLoading, isError, isSuccess, status,}] = useLazyLoginQuery()
+const [open, setOpen] = React.useState(false);
+    const [message, setMessage] = React.useState('');
 
 
     const handleLogin = async () => {
         const user: User = {
-            // @ts-ignore
-            email: email.current?.value, password: password.current?.value
+            email: email.current?.value as string,
+            password: password.current?.value as string
         }
-
         const result = await login(user)
-        if (store.getState().auth.isLoggedIn) {
-            console.log('Store ', store.getState())
-            console.log('Result ', result)
-            setIsLoggedIn(true)
-            router.push('/pages/dashboard')
-        }
-        // @ts-ignore
-        if (result.isError) {
-            console.log(result.error)
-            // @ts-ignore
-            setMessage(result.error.data.message)
+        if (result.error) {
+            setMessage(result.error.message)
             setOpen(true)
+        } else {
+            setIsLoggedIn(true)
         }
 
-
+        console.log('result', store.getState().auth)
     }
 
     useEffect(() => {
-        // @ts-ignore
-        store.dispatch({type: 'auth/auth'})
-        if (store.getState().auth.isLoggedIn) {
+        console.log('isSuccess', isLoggedIn)
+        if (isLoggedIn) {
             router.push('/pages/dashboard')
         }
-
-    }, [isLoggedIn]);
+    }, [isLoggedIn])
 
 
         // check auth

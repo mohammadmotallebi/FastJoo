@@ -16,9 +16,19 @@ use Illuminate\Support\Facades\Gate;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/auth', function (Request $request) {
-   dd(auth());
-})->can('view-users');
+//Route::middleware(['auth:sanctum'])->get('/auth', function (Request $request) {
+//   dd(auth());
+//})->can('view-users');
+Route::middleware('cors')->prefix('api')->group(static function () {
+    Route::get('/brands', function (Request $request) {
+        return \App\Models\Brand::all();
+    });
+
+    Route::get('/types', function (Request $request) {
+        return \App\Models\Type::all();
+    });
+
+});
 
 
 

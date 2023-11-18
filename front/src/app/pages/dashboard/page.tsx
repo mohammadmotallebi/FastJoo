@@ -5,26 +5,36 @@ import Loading from "@components/Loading";
 import React from "react";
 import store from '@redux/store'
 import {useRouter} from "next/navigation";
+import {useLazyAuthQuery} from "@services/api";
+import {setUser} from "@redux/slices/authSlice";
 export default function async () {
-    const [isPageLoading, setIsPageLoading] = React.useState(true);
     const router = useRouter()
+    const [isLoggedIn, setIsLoggedIn] = React.useState(false)
+    const [auth, {data, isLoading, isError, isSuccess, status}] = useLazyAuthQuery()
+    const checkAuth = async () => {
+        // @ts-ignore
+        const result = await auth()
+        if (result.error) {
+            router.push('/auth/login')
+        } else {
+            setIsLoggedIn(true)
+            // @ts-ignore
+            store.dispatch(setUser(result.data.user))
+        }
+    }
+    React.useEffect(() => {
+        checkAuth()
+    }, [isLoggedIn])
 
     React.useEffect(() => {
-        // @ts-ignore
-        store.dispatch({type: 'auth/auth'})
-        if (store.getState().auth.isLoggedIn) {
-            setIsPageLoading(false)
-        }else {
+        if (!isSuccess) {
             router.push('/auth/login')
         }
-
-    }, [])
-
-
+    }, [isLoggedIn])
     // @ts-ignore
     return (
         <div className="flex">
-            <Loading open={isPageLoading}/>
+            <Loading open={!isLoggedIn}/>
             <Menu children={<Dashboard/>}/>
         </div>
     )

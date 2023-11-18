@@ -96,7 +96,7 @@ const authSlice = createSlice({
             state.isLoading = false
             state.isLoggedIn = true
             // @ts-ignore
-            state.user = action.payload.user
+            state.user = action.payload?.user
         })
         builder.addMatcher(api.endpoints.auth.matchRejected, (state, action) => {
             state.isLoading = false

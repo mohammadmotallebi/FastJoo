@@ -20,12 +20,14 @@ Route::get('/', function () {
         'message' => 'Welcome to the API',
         'version' => config('app.version')
     ];
-});
-Route::prefix('api')->group(function () {
-    require __DIR__.'/api.php';
-});
+})->middleware('cors');
+
+
+
 Route::get('/decrypt', function (Request $request) {
     return config('database.connections.mysql.database');
-});
+})->middleware('cors');
 
+
+require __DIR__.'/api.php';
 require __DIR__.'/auth.php';

@@ -1,9 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { useRouter } from 'next/navigation';
-import type { RootState } from "@redux/store";
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {useRouter} from 'next/navigation';
+import type {RootState} from "@redux/store";
 import {setToken, setUser, setIsLoggedIn, setIsLoading, setError} from "@redux/slices/authSlice";
-
-
+import {User} from "@/app/types/User";
+import {cookies} from "next/headers";
+import {router} from "next/client";
 
 
 export const logout = () => {
@@ -15,13 +16,15 @@ export const redirect = (path: string) => {
     const router = useRouter()
     router.push(path)
 }
+
+
 // @ts-ignore
 export const api = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://fastjoo.mofacode.ir/',
+        baseUrl: 'http://localhost:8000/api/',
         credentials: 'include',
-        prepareHeaders: (headers, { getState }) => {
+        prepareHeaders: (headers, {getState}) => {
             const token = (getState() as RootState).auth.token
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`)
@@ -33,33 +36,21 @@ export const api = createApi({
     }),
     endpoints: (build) => ({
         login: build.query({
-            query: (body : {email: string, password: string}) => ({
+            query: (body: { email: string, password: string }) => ({
                 url: 'login',
                 method: 'POST',
                 body
             }),
             // @ts-ignore
-            onQueryStarted(arg: QueryArg, api: MutationLifecycleApi<QueryArg, BaseQuery, ResultType, ReducerPath>): Promise<void> | void {
+            onQueryStarted(arg, {queryFulfilled}): Promise<void> | void {
                 console.log('onQueryStarted', api)
+                queryFulfilled?.then((data: any) => {
+                    console.log('onQueryStarted', data)
+                    setUser(data.user)
+                    setIsLoggedIn(true)
 
-                api.queryFulfilled.then((result: { data: { token: any; user: any; };meta: { meta: any; }; }) => {
-                    console.log('onQueryStarted', result)
-                    console.log('onQueryStarted', result.meta.response.headers.getSetCookie())
-                    api.dispatch(setToken(result.data.token))
-                    api.dispatch(setUser(result.data.user))
-                    api.dispatch(setIsLoggedIn(true))
                 })
-
-                setIsLoading(true)
             },
-            // @ts-ignore
-            onQueryRejected(error: any, { dispatch }) {
-                console.log('onQueryRejected', error)
-                setIsLoading(false)
-                setIsLoggedIn(false)
-                setError(error.data.message)
-                setUser({})
-            }
         }),
         register: build.query({
             query: (credentials) => ({
@@ -76,51 +67,24 @@ export const api = createApi({
             // logout and redirect to login page
             // @ts-ignore
             onQueryStarted(arg: QueryArg, api: MutationLifecycleApi<QueryArg, BaseQuery, ResultType, ReducerPath>): Promise<void> | void {
-                console.log('onQueryStarted', api)
-
-            },
-            // @ts-ignore
-            onQueryFulfilled(result: any, { dispatch }) {
-                console.log('onQueryFulfilled', result)
-                dispatch(setUser({}))
-                dispatch(setIsLoggedIn(false))
-
-            },
-            // @ts-ignore
-            onQueryRejected(error: any, { dispatch }) {
-                console.log('onQueryRejected', error)
-                dispatch(setError(error.data.message))
-                dispatch(setUser({}))
-                dispatch(setIsLoggedIn(false))
-
+                    api.dispatch(setUser({}))
+                    api.dispatch(setIsLoggedIn(false))
             }
         }),
         auth: build.query({
             query: () => ({
-                url: 'api/auth',
+                url: 'auth',
                 method: 'GET',
             }),
             // @ts-ignore
-            onQueryStarted(arg: QueryArg, api: MutationLifecycleApi<QueryArg, BaseQuery, ResultType, ReducerPath>): Promise<void> | void {
-                console.log('onQueryStarted', api)
-                setIsLoading(true)
+            onQueryStarted(arg, {queryFulfilled, dispatch}): Promise<void> | void {
+                queryFulfilled?.then((data: any) => {
+                    dispatch(setUser(data.user))
+                    dispatch(setIsLoggedIn(true))
+                })
+
             },
-            // @ts-ignore
-            onQueryFulfilled(result: any, { dispatch }) {
-                console.log('onQueryFulfilled', result)
-                dispatch(setIsLoading(false))
-                dispatch(setIsLoggedIn(result.data?.authenticated))
-                dispatch(setUser(result.data.user))
-            },
-            // @ts-ignore
-            onQueryRejected(error: any, { dispatch }) {
-                console.log('onQueryRejected', error)
-                setIsLoading(false)
-                setIsLoggedIn(false)
-                setError(error.data.message)
-                setUser({})
-                redirect('/auth/login')
-            }
+
         }),
     })
 });
@@ -131,4 +95,4 @@ export const {
     useLazyAuthQuery,
     useLazyLogoutQuery
 } = api;
-export const { reducer, middleware } = api;
+export const {reducer, middleware} = api;

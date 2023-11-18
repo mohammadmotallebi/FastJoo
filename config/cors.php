@@ -15,11 +15,11 @@ return [
     |
     */
     //disable cors for local development all together
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'logout', 'register', 'password/email', 'password/reset', 'email/verify', 'email/verification-notification', 'email/resend', 'user/profile-information', 'user/password', 'user/two-factor-authentication', 'user/two-factor-qr-code'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['http://localhost:5173/','http://localhost:3000/'],
 
     'allowed_origins_patterns' => [],
 
