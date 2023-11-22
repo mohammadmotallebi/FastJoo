@@ -28,9 +28,10 @@ Route::middleware('cors')->prefix('api')->group(static function () {
         return \App\Models\Type::all();
     });
 
+    Route::post('/add-item', [\App\Http\Controllers\ItemController::class, 'addItem']);
+    Route::get('/get-items', [\App\Http\Controllers\ItemController::class, 'getItems']);
+
 });
-
-
 
 //    return collect(DB::select('show tables'))->map(function ($val) {
 //        foreach ($val as $key => $tbl) {

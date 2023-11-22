@@ -18766,12 +18766,12 @@
      
 }
 
-    namespace Illuminate\Http { 
-            /**
-     * 
+    namespace Illuminate\Http {
+        /**
+         *
      *
-     */ 
-        class Request {
+     *@property mixed $name*/
+        class Request {public mixed $brand_id;public mixed $price;public mixed $description;
                     /**
          * 
          *
