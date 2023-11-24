@@ -31,7 +31,10 @@ Route::middleware('cors')->prefix('api')->group(static function () {
                 ->name('password.store');
 
             Route::get('/auth', function (Request $request) {
-                return auth()->user();
+                if (auth()->check()) {
+                    return response()->json(['logged_in'=> true, 'data' => $request->user()]);
+                }
+                return response()->json(['logged_in'=> false]);
             });
     });
     Route::middleware(['auth:sanctum'])->group(static function () {
@@ -45,10 +48,6 @@ Route::middleware('cors')->prefix('api')->group(static function () {
 
             Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])
                 ->name('logout');
-
-            Route::post('/gettoken', function (Request $request) {
-                return auth()->check();
-            })->middleware('api');
 
     });
 

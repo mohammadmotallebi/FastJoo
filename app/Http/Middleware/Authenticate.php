@@ -9,24 +9,19 @@ use Illuminate\Http\Request;
 class Authenticate extends Middleware
 {
 
-    /**
-     * Determine if the user is logged in to any of the given guards.
-     *
-     * @param  array<string>  $guards
-     */
-    protected function authenticate($request, array $guards): void
+    //auth:sanctum middleware
+    public function handle($request, Closure $next, ...$guards)
     {
-        if (empty($guards)) {
-            $guards = [null];
-        }
+        // return custom response if user is not authenticated
 
-        foreach ($guards as $guard) {
-            if ($this->auth->guard($guard)->check()) {
-                return;
-            }
+        if ($guards[0] === 'sanctum' && $request->user() === null) {
+            return response()->json([
+                'logged_in' => false,
+                'message' => 'Unauthenticated'
+            ], 401);
         }
+        return $next($request);
+
+
     }
-
-
-
 }

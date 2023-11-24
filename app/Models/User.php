@@ -67,6 +67,13 @@ class User extends Authenticatable
         'role_id',
     ];
 
+    // each user has many messages
+    public function messages(): HasMany
+    {
+
+        return $this->hasMany(Message::class, 'sender_id', 'id');
+    }
+
     /**
      * Get the role that owns the User
      *

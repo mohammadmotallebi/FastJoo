@@ -14,13 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return [
-        'status' => 'success',
-        'message' => 'Welcome to the API',
-        'version' => config('app.version')
-    ];
-})->middleware('cors');
+Route::get('/', function () { // this is the default route
+   // show index page in resources/views/index.blade.php
+    return view('index');
+});
 
 
 

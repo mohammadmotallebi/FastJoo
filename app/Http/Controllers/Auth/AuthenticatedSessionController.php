@@ -17,17 +17,17 @@ class AuthenticatedSessionController extends Controller
      */
     public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
-            $request->authenticate();
+        $request->authenticate();
 
-            $request->session()->regenerate();
+        $request->session()->regenerate();
 
-            $request->user()->tokens()->delete();
+        $request->user()->tokens()->delete();
 
-            return response()->json([
-                'status' => 'success',
-                'user' => $request->user(),
-                'token' => 'Bearer '.$request->user()->createToken('token')->plainTextToken
-            ]);
+        return response()->json([
+            'logged_in' => true,
+            'user' => $request->user(),
+            'token' => 'Bearer '.$request->user()->createToken('token')->plainTextToken
+        ]);
     }
 
     /**

@@ -43,15 +43,20 @@ class LoginRequest extends FormRequest
 
         // login with email or bread token
 
-        if (! Auth::attempt($this->only('email', 'password'), true)) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
+        try {
+            if (!Auth::attempt($this->only('email', 'password'), true)) {
+                response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid credentials'
+                ], 401)->throwResponse();
+            }
+            RateLimiter::clear($this->throttleKey());
+        } catch (\Exception $e) {
+            response()->json([
+                'error' => $e,
+                'message' => 'Invalid credentials'
+            ], 401)->throwResponse();
         }
-
-        RateLimiter::clear($this->throttleKey());
     }
 
     /**
