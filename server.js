@@ -1,0 +1,2 @@
+// Middleware mode vite laravel
+

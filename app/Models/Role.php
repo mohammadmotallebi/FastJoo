@@ -39,6 +39,7 @@ class Role extends Model
         'role',
     ];
 
+
     /**
      * Get abilities for the role.
      *

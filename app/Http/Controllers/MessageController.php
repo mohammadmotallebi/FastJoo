@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Messages;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -10,10 +12,32 @@ class MessageController extends Controller
     // get all messages
     public function getMessages(): \Illuminate\Http\JsonResponse
     {
+        $messages = Message::with('user')->where('user_id', auth()->user()->id)->orWhere('admin_id', auth()->user()->id)->get();
+
+
         return response()->json([
-            'success' => true, // This is a success indicator
-            'message' => 'Messages fetched successfully',
-            'data' => Message::all(),
+            'count' => count($messages),
+            'unread' => count($messages->where('status', 'unread')),
+            'messages' => $messages
+        ], 200);
+
+    }
+
+    // send message
+    public function sendMessage(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $message = Message::create([
+            'user_id' => auth()->user()->id,
+            'admin_id' => 1,
+            'message' => $request->message,
+            'sent_at' => now()->format('Y-m-d H:i:s'),
+            'status' => 'unread'
+        ]);
+
+        return response()->json([
+            'message' => $message
         ], 200);
     }
+
+
 }

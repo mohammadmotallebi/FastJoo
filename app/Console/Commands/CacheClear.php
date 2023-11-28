@@ -34,6 +34,12 @@ class CacheClear extends Command
             $this->call('view:clear');
             $this->call('optimize:clear');
             $this->call('event:clear');
+            $this->call('clear-compiled');
+            $this->call('config:cache');
+            $this->call('route:cache');
+            $this->call('view:cache');
+            $this->call('optimize');
+            $this->call('event:cache');
         })->describe('Clears the cache')->purpose('Clears the cache');
     }
 

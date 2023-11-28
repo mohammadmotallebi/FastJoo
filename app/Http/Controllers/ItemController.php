@@ -9,11 +9,7 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    //Auth
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    }
+
     // Add item
     public function addItem(Request $request): JsonResponse
     {
@@ -56,14 +52,29 @@ class ItemController extends Controller
     }
 
     // Get all items
-    public function getItems(): JsonResponse
+    public function getItems($order = 'asc', $by = 'name'): JsonResponse
     {
+
         try {
-            $items = Item::with('images')->get();
+            $items = Item::with(['images', 'brand', 'type'])->get();
+            $items = $items->map(function ($item) {
+                $item->brand_name = $item->brand->brand_name;
+                $item->type_name = $item->type->type_name;
+
+                return $item;
+            });
+            $items->makeHidden(['brand', 'type', 'brand_id', 'type_id']);
+            // Sort items
+            if($order === 'asc') {
+                $items = collect($items)->sortBy($by);
+            } else {
+                $items = collect($items)->sortByDesc($by);
+            }
+
             return response()->json([
                 'success' => true, // This is a success indicator
                 'message' => 'Items fetched successfully',
-                'items' => $items,
+                'items' => $items->values()->all(),
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -80,7 +91,6 @@ class ItemController extends Controller
         $request->validate([
             'id' => 'required|integer',
         ]);
-
         try {
             $item = Item::find($request->id);
             $item->delete();

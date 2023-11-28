@@ -18771,7 +18771,7 @@
          *
      *
      *@property mixed $name*/
-        class Request {public mixed $brand_id;public mixed $price;public mixed $description;
+        class Request {public mixed $brand_id;public mixed $price;public mixed $description;public mixed $admin_id;public mixed $message;
                     /**
          * 
          *
