@@ -6,6 +6,7 @@ use App\Models\Item;
 use App\Models\ItemImage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use function App\Helpers\currentUser;
 
 class ItemController extends Controller
 {
@@ -26,6 +27,7 @@ class ItemController extends Controller
         try {
             $item = Item::create([
                 'name' => $request->name,
+                'user_id' =>currentUser('id'),
                 'brand_id' => $request->brand_id,
                 'type_id' => $request->type_id,
                 'serial' => $request->serial,
@@ -127,6 +129,7 @@ class ItemController extends Controller
             $item = Item::find($request->id);
             $item->update([
                 'name' => $request->name,
+                'user_id' =>currentUser('id'),
                 'brand_id' => $request->brand_id,
                 'type_id' => $request->type_id,
                 'serial' => $request->serial,

@@ -1,0 +1,26 @@
+{
+  "cwd": "C:\\MyProject\\FastJoo\\resources\\repair",
+  "type": [
+    "pwa",
+    "capacitor"
+  ],
+  "name": "Apex Electronics Repair",
+  "framework": "react",
+  "template": "tabs",
+  "bundler": "vite",
+  "cssPreProcessor": false,
+  "theming": {
+    "customColor": true,
+    "color": "#007aff",
+    "darkMode": false,
+    "iconFonts": true
+  },
+  "customBuild": false,
+  "pkg": "mofa.mofacode.apex",
+  "capacitor": {
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  }
+}

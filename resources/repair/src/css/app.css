@@ -1,0 +1,18 @@
+/* Your app custom styles here */
+.rs-steps-small .rs-steps-item-title{
+    font-size: 10px !important;
+}
+.rs-steps-small .rs-steps-item-icon-wrapper {
+    font-size: 10px !important;
+    height: 20px !important;
+    width: 20px !important;
+}
+.rs-steps-small.rs-steps-horizontal .rs-steps-item-title:after{
+    top: 6px !important;
+}
+
+.media-list .item-inner, li.media-item .item-inner {
+    display: flex;
+    align-self: stretch;
+}
+

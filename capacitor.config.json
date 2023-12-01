@@ -1,0 +1,13 @@
+{
+  "appId": "mofa.mofacode.apex",
+  "appName": "Apex Electronics Repair",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "resources/www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}
