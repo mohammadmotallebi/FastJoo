@@ -1,4 +1,4 @@
-# My App
+# ApexElectro Renewal
 
 ## Framework7 CLI Options
 
