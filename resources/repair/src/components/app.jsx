@@ -29,7 +29,7 @@ const MyApp = () => {
     const [password, setPassword] = useState('');
     const [userLoggedIn, setUserLoggedIn] = useState(false);
     const device = getDevice();
-    const user = store.getters.user;
+    const user = useStore(store,'user')
     const isLoggedIn = useStore(store,'isLoggedIn');
     const panelOpen = useStore(store,'panelOpen');
     const [contentWidth, setContentWidth] = useState(f7?.width);
@@ -101,7 +101,9 @@ const MyApp = () => {
         statusbar: {
             iosOverlaysWebView: true,
             androidOverlaysWebView: false,
-        }
+        },
+        user
+
     };
     f7ready(() => {
         // console.log('f7ready', store.getters.user)

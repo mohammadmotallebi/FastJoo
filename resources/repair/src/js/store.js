@@ -14,7 +14,7 @@ const store = createStore({
     getters: {
         // User data
         user({ state }) {
-            return state.user.value;
+            return state.user;
         },
         isLoggedIn({ state }) {
             return state.isLoggedIn;
@@ -24,19 +24,18 @@ const store = createStore({
         },
     },
     actions: {
-        async getUser({ state, dispatch, app }) {
+        async getUser({ state, dispatch }) {
             await fetch(`${config.API_URL}/auth`,{
                 method: 'GET',
                 headers: config.HEADER
             }).then(res => res.json())
                 .then(async (data) => {
-                    console.log('store: ',data)
                     await dispatch('setIsLoggedIn', data?.logged_in)
                     if (data.logged_in) {
                         state.user = {...data.data, 'logged_in': true}
                         dispatch('setIsLoggedIn', true)
                     }else{
-                        state.user.logged_in=false
+                        state.user = {'logged_in': false}
                         dispatch('setIsLoggedIn', false)
                     }
 

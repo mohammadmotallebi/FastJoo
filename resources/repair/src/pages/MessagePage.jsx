@@ -7,7 +7,7 @@ import {
     Message,
     Messagebar,
     Link,
-    f7
+    f7, f7ready
 } from 'framework7-react';
 import {getMessages} from "../api/API";
 import {useQuery} from "react-query";
@@ -21,7 +21,7 @@ const MessagePage = ({f7router}) => {
     const [attachments, setAttachments] = useState([]);
     const [sheetVisible, setSheetVisible] = useState(false);
     const [typingMessage, setTypingMessage] = useState(null);
-    const currentUser = store.getters.user;
+    const currentUser = f7.params.user;
 
     const messagesEndRef = useRef(null);
     const images = [
@@ -36,22 +36,25 @@ const MessagePage = ({f7router}) => {
     ];
 
     const {data: messages, isLoading} = useQuery('messages', getMessages,{
-        refetchInterval: currentUser.value?.logged_in ? 6000 : false,
+        refetchInterval: currentUser?.logged_in ? 6000 : false,
         refetchIntervalInBackground: true,
         refetchOnWindowFocus: false,
     });
 
 
     useEffect(() => {
-        console.log(messages)
-        if (messages) {
-            setMessagesData(messages.messages);
-        }
-        console.log(messages)
+        f7ready((f7) => {
+            f7.store.dispatch('getUser');
+            console.log('MessagePage => ',currentUser)
+            if (messages) {
+                setMessagesData(messages.messages);
+            }
+            console.log(messages)
+        });
     }, [isLoading,messages]);
 
     const sendMessage = () => {
-        console.log(currentUser)
+        console.log('MessagePage: ',currentUser)
         const text = messageText.trim();
         if (text.length === 0) return;
         setAttachments([]);
