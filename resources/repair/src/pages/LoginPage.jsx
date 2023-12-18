@@ -11,7 +11,7 @@ import {
     LoginScreenTitle,
     BlockFooter,
     ListButton,
-    f7,
+    f7, Link, Icon,
 } from 'framework7-react';
 import store from "../js/store";
 import config from "../config";
@@ -47,9 +47,11 @@ export default ({f7router}) => {
     return (
                 <Page loginScreen noToolbar>
                     <LoginScreenTitle><img src="/assets/RENEWAL.png" width="180" height="180"  alt=""/></LoginScreenTitle>
-                    <List form>
+                    <List form strong inset>
                         <ListInput
                             label="Email"
+                            outline
+                            floatingLabel
                             type="text"
                             placeholder="Your Your Email"
                             value={email}
@@ -58,19 +60,30 @@ export default ({f7router}) => {
                         <ListInput
                             label="Password"
                             type="password"
+                            outline
+                            floatingLabel
                             placeholder="Your password"
                             value={password}
                             onInput={(e) => setPassword(e.target.value)}
 
                         />
-                    </List>
-                    <List inset>
-                        <ListButton onClick={signIn}>Sign In</ListButton>
-                        <BlockFooter>
-                            Some text about login information.
-                            <br />
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </BlockFooter>
+                        <ListItem>
+                            <div className="grid grid-cols-2 grid-gap width-100 margin-top">
+                                <Button raised fill round onClick={signIn} large className="width-100" color="purple">
+                                    <Icon f7="person" size="24px" className="margin-right"/>
+                                    Sign In
+                                </Button>
+                                <Button raised fill round onClick={() => f7router.navigate('/register/')} large className="width-100" color="orange_75">
+                                    <Icon f7="person_badge_plus" size="24px" className="margin-right"/>
+                                    Sign Up
+                                </Button>
+                            </div>
+
+                        </ListItem>
+                        <ListItem>
+                                <Link href="/forgot-password/">Forgot Password?</Link>
+                        </ListItem>
+
                     </List>
                 </Page>
     );

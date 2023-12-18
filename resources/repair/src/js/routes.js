@@ -1,4 +1,3 @@
-
 import HomePage from '../pages/home.jsx';
 import AboutPage from '../pages/about.jsx';
 import FormPage from '../pages/form.jsx';
@@ -9,8 +8,8 @@ import {UpdateItem} from "../pages/UpdateItem";
 import MessagePage from "../pages/MessagePage";
 import Profile from "../pages/Profile";
 import config from "../config.json";
-import  store from "../js/store";
-import {useStore} from "framework7-react";
+import Forgot from "../pages/Forgot";
+import Register from "../pages/Register";
 
 
 const authenticate = async () => {
@@ -28,7 +27,7 @@ const authenticate = async () => {
 
 }
 
-function checkAuth({ app, to, resolve, reject }) {
+function checkAuth({app, to, resolve, reject}) {
     const router = this;
     authenticate().then((logged_in) => {
         if (!logged_in) {
@@ -44,7 +43,7 @@ function checkAuth({ app, to, resolve, reject }) {
 const routes = [
     {
         path: '/',
-        async: function ({ app, to, resolve, reject }) {
+        async: function ({app, to, resolve, reject}) {
 
             const router = this;
             console.log('router', router)
@@ -66,70 +65,86 @@ const routes = [
         },
     },
     {
-      path: '/about/',
-      component: AboutPage,
+        path: '/about/',
+        component: AboutPage,
     },
     {
-      path: '/profile/',
+        path: '/forgot-password/',
+        component: Forgot,
+        options: {
+            transition: 'f7-cover-v',
+            openIn: 'popup',
+        },
+    },
+    {
+        path: '/register/',
+        component: Register,
+        options: {
+            transition: 'f7-cover-v',
+            openIn: 'popup',
+        },
+    },
+    {
+        path: '/profile/',
         component: Profile,
         beforeEnter: checkAuth,
-      options: {
-        transition: 'f7-cover-v',
-        openIn: 'popup',
-      },
+        options: {
+            transition: 'f7-cover-v',
+            openIn: 'popup',
+        },
     },
     {
-      path: '/add/',
-      component: AddItem,
+        path: '/add/',
+        component: AddItem,
         beforeEnter: checkAuth,
-      options: {
-        transition: 'f7-cover-v',
-        openIn: 'popup',
-      },
+        options: {
+            transition: 'f7-cover-v',
+            openIn: 'popup',
+        },
     },
     {
-      path: '/edit/:id',
-      component: UpdateItem,
+        path: '/edit/:id',
+        component: UpdateItem,
         beforeEnter: checkAuth,
-      options: {
-        transition: 'f7-cover-v',
-        openIn: 'popup',
-      },
+        options: {
+            transition: 'f7-cover-v',
+            openIn: 'popup',
+        },
     },
     {
-      path:'/messages/',
+        path: '/messages/',
         component: MessagePage,
         beforeEnter: checkAuth,
     },
     {
-      path: '/login/',
-      component: LoginPage,
+        path: '/login/',
+        component: LoginPage,
     },
     {
-      path: '/logout/',
-      async: function ({ app, to, resolve }) {
-        fetch(`${config.API_URL}/logout`, {
-          method: 'POST',
-          credentials: 'include',
-          headers: config.HEADER
-        })
-            .then((res) => {
-              if (res.status === 200) {
-                window.location.href = '/';
-                resolve();
-              } else {
-                app.dialog.alert('Logout failed');
-              }
+        path: '/logout/',
+        async: function ({app, to, resolve}) {
+            fetch(`${config.API_URL}/logout`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: config.HEADER
             })
-            .catch((err) => {
-              console.log(err);
-            });
-      },
+                .then((res) => {
+                    if (res.status === 200) {
+                        window.location.href = '/';
+                        resolve();
+                    } else {
+                        app.dialog.alert('Logout failed');
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
     },
     {
-      path: '(.*)',
-      component: NotFoundPage,
+        path: '(.*)',
+        component: NotFoundPage,
     },
-  ];
+];
 
 export default routes;
