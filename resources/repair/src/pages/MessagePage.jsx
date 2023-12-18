@@ -107,7 +107,7 @@ const MessagePage = ({f7router}) => {
                 {messagesData?.map((message, index) => (
                     <Message
                         key={index}
-                        type={message.user_id === currentUser.value?.id ? 'sent' : 'received'}
+                        type={message.user_id === currentUser?.value?.id ? 'sent' : 'received'}
                         name={message.user.name}
                         tail={true}
                     >

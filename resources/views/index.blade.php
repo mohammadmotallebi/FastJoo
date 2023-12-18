@@ -19,15 +19,16 @@
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
-    <link rel="icon" href="/icons/favicon.png">
-    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="{!! asset('/icons/apple-touch-icon.png') !!}">
+    <link rel="icon" href="{!! asset('favicon.ico') !!}">
+    <link rel="manifest" href="{!! asset('manifest.json') !!}">
     <!-- built styles file will be auto injected -->
+    @viteReactRefresh
 </head>
 <body>
 <div id="app"></div>
 
-@viteReactRefresh
+
 @vite('resources/repair/src/js/app.js')
 </body>
 </html>

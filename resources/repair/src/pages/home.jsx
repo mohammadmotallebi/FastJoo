@@ -113,7 +113,6 @@ const HomePage = ({f7router}) => {
     }
 
     const loadData = async (done) => {
-
         await refetch(orderBy).then((res) => {
             console.log('TData',res)
             setTableData(res.data.items)

@@ -13,23 +13,57 @@ import  store from "../js/store";
 import {useStore} from "framework7-react";
 
 
+const authenticate = async () => {
+    const auth = await fetch(`${config.API_URL}/auth`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Accept': 'application/json',
+            'X-API-KEY': config.X_API_KEY
+        }
+    })
+    const authData = await auth.json()
+    console.log('authData', authData)
+    return !!authData.logged_in;
 
+}
+
+function checkAuth({ app, to, resolve, reject }) {
+    const router = this;
+    authenticate().then((logged_in) => {
+        if (!logged_in) {
+
+            reject();
+            router.navigate('/login/');
+            return;
+        }
+        resolve();
+    });
+}
 
 const routes = [
     {
         path: '/',
-        component: HomePage,
-        beforeEnter: function async({resolve, reject}) {
-            const user = useStore(store, 'user');
-            console.log('beforeEnter', user)
-                const router = this;
-                if (!user.value?.logged_in) {
+        async: function ({ app, to, resolve, reject }) {
+
+            const router = this;
+            console.log('router', router)
+            authenticate().then((logged_in) => {
+                if (!logged_in) {
                     reject();
                     router.navigate('/login/');
                     return;
                 }
-                resolve();
-        }
+                resolve(
+                    {
+                        component: HomePage,
+                    },
+                    {
+                        reloadCurrent: true,
+                    }
+                );
+            });
+        },
     },
     {
       path: '/about/',
@@ -38,27 +72,7 @@ const routes = [
     {
       path: '/profile/',
         component: Profile,
-        async: function ({ app, to, resolve }) {
-            const user = store.getters.user;
-            console.log('beforeEnter', user)
-            const router = this;
-            if (!user.value?.logged_in) {
-                router.navigate('/login/');
-                return;
-            }
-            resolve();
-        },
-        beforeEnter: function async({resolve, reject}) {
-            const user = useStore(store, 'user');
-            console.log('beforeEnter', user)
-            const router = this;
-            if (!user.value?.logged_in) {
-                reject();
-                router.navigate('/login/');
-                return;
-            }
-            resolve();
-        },
+        beforeEnter: checkAuth,
       options: {
         transition: 'f7-cover-v',
         openIn: 'popup',
@@ -67,6 +81,7 @@ const routes = [
     {
       path: '/add/',
       component: AddItem,
+        beforeEnter: checkAuth,
       options: {
         transition: 'f7-cover-v',
         openIn: 'popup',
@@ -75,6 +90,7 @@ const routes = [
     {
       path: '/edit/:id',
       component: UpdateItem,
+        beforeEnter: checkAuth,
       options: {
         transition: 'f7-cover-v',
         openIn: 'popup',
@@ -83,27 +99,7 @@ const routes = [
     {
       path:'/messages/',
         component: MessagePage,
-        async: function ({ app, to, resolve }) {
-            const user = store.getters.user;
-            console.log('beforeEnter', user)
-            const router = this;
-            if (!user.value?.logged_in) {
-                router.navigate('/login/');
-                return;
-            }
-            resolve();
-        },
-        beforeEnter: function async({resolve, reject}) {
-            const user = useStore(store, 'user');
-            console.log('beforeEnter', user)
-            const router = this;
-            if (!user.value?.logged_in) {
-                reject();
-                router.navigate('/login/');
-                return;
-            }
-            resolve();
-        }
+        beforeEnter: checkAuth,
     },
     {
       path: '/login/',
@@ -119,15 +115,8 @@ const routes = [
         })
             .then((res) => {
               if (res.status === 200) {
-                app.dialog.alert('You have been logged out');
-                resolve(
-                    {
-                      component: LoginPage,
-                    },
-                    {
-                      reloadCurrent: true,
-                    }
-                );
+                window.location.href = '/';
+                resolve();
               } else {
                 app.dialog.alert('Logout failed');
               }

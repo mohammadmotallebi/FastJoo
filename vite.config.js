@@ -11,19 +11,19 @@ export default async () => {
         'process.env': process.env,
     },
 
-    // mode: 'development',
-    // workers: 1,
-    // appType: 'spa',
-    //
-    // base: '',
-    // build: {
-    //     outDir: BUILD_DIR,
-    //     assetsInlineLimit: 0,
-    //     emptyOutDir: true,
-    //     rollupOptions: {
-    //         treeshake: false,
-    //     },
-    // },
+    mode: 'development',
+    workers: 1,
+    appType: 'spa',
+
+    base: '',
+    build: {
+        outDir: BUILD_DIR,
+        assetsInlineLimit: 0,
+        emptyOutDir: true,
+        rollupOptions: {
+            treeshake: false,
+        },
+    },
     resolve: {
         alias: {
             '@': SRC_DIR,
@@ -33,6 +33,7 @@ export default async () => {
         laravel({
             input: [
                 'resources/repair/src/js/app.js',
+                'resources/repair/src/css/app.css',
             ],
             refresh: true,
 

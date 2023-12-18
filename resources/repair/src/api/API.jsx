@@ -4,6 +4,7 @@ import store from '../js/store';
 export const fetchBrands = async () => {
    const result = await fetch(`${config.API_URL}/brands`,{
         method: 'GET',
+       credentials: 'include',
         headers: config.HEADER,
     })
     return result.json()
@@ -13,6 +14,7 @@ export const fetchBrands = async () => {
 export const fetchTypes = async () => {
    const result = await fetch(`${config.API_URL}/types`,{
         method: 'GET',
+       credentials: 'include',
         headers: config.HEADER,
     })
     return result.json()
@@ -23,6 +25,7 @@ export const getItemsList =  async({order, by}) => {
 
             const response = await fetch(`${config.API_URL}/get-items/${order}/${by}`, {
                 method: 'GET',
+                credentials: 'include',
                 headers: config.HEADER
             });
             return await response.json();
@@ -33,6 +36,7 @@ export const getItemsList =  async({order, by}) => {
 export const deleteItemById = async (id) => {
     const response = await fetch(`${config.API_URL}/delete-item`, {
             method: 'DELETE',
+        credentials: 'include',
             headers: config.HEADER,
             body: JSON.stringify({id})
         });
@@ -43,6 +47,7 @@ export const deleteItemById = async (id) => {
 export const updateItemById = async (id, data) => {
     const response = await fetch(`${config.API_URL}/update-item`, {
             method: 'POST',
+        credentials: 'include',
             headers: config.HEADER,
             body: JSON.stringify({id, ...data})
         });
@@ -53,6 +58,7 @@ export const updateItemById = async (id, data) => {
 export const getItemById = async (id) => {
     const response = await fetch(`${config.API_URL}/get-item`, {
         method: 'POST',
+        credentials: 'include',
         headers: config.HEADER,
         body: JSON.stringify({id})
     });
@@ -63,6 +69,7 @@ export const getItemById = async (id) => {
 export const checkAuth = async () => {
     const response = await fetch(`${config.API_URL}/auth`, {
         method: 'GET',
+        credentials: 'include',
         headers: config.HEADER
     });
     return await response.json();
@@ -72,6 +79,7 @@ export const checkAuth = async () => {
 export const getMessages = async () => {
     const response = await fetch(`${config.API_URL}/get-messages`, {
         method: 'POST',
+        credentials: 'include',
         headers: config.HEADER
     });
     return await response.json();

@@ -37,7 +37,7 @@ export default ({f7router}) => {
                     // store.state.user(json.user)
                     // store.state.isLoggedIn(true);
                     // localStorage.setItem('token', json.token);
-                    f7router.navigate('/');
+                    window.location.href = '/';
                 } else {
                     f7.dialog.alert('Login failed!');
                 }

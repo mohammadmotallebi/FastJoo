@@ -102,28 +102,27 @@ const MyApp = () => {
             iosOverlaysWebView: true,
             androidOverlaysWebView: false,
         },
-        user
-
+        // user
     };
-    f7ready(() => {
-        // console.log('f7ready', store.getters.user)
-        f7params.store.dispatch('getUser')
-        const user = f7params.store.getters.user
-        // f7params.store.getters.user.onUpdated(data => {
-        //     console.log('user updated', data)
-        //     if (data?.logged_in) {
-        //         setUserLoggedIn(true)
-        //     } else {
-        //         setUserLoggedIn(false)
-        //     }
-        // })
-        // console.log(isLoggedIn)
-        // Init capacitor APIs (see capacitor-app.js)
-        if (f7.device.capacitor) {
-            capacitorApp.init(f7);
-        }
-        // Call F7 APIs here
-    });
+    // f7ready(() => {
+    //     // console.log('f7ready', store.getters.user)
+    //     f7params.store.dispatch('getUser')
+    //     const user = f7params.store.getters.user
+    //     // f7params.store.getters.user.onUpdated(data => {
+    //     //     console.log('user updated', data)
+    //     //     if (data?.logged_in) {
+    //     //         setUserLoggedIn(true)
+    //     //     } else {
+    //     //         setUserLoggedIn(false)
+    //     //     }
+    //     // })
+    //     // console.log(isLoggedIn)
+    //     // Init capacitor APIs (see capacitor-app.js)
+    //     if (f7.device.capacitor) {
+    //         capacitorApp.init(f7);
+    //     }
+    //     // Call F7 APIs here
+    // });
     const handleContentWidth = () => {
         if(panelOpen && isLoggedIn){
             setContentWidth(f7.width - document.getElementById("panel-nested").offsetWidth)
@@ -223,7 +222,7 @@ const MyApp = () => {
                             }}>
                             {/* Your main view/tab, should have "view-main" class. It also has "tabActive" prop */}
                             <Navbar id="navbar" sliding={false} style={{height:"90px"}}>
-                                <NavLeft>
+                                {isLoggedIn ? <NavLeft>
                                     <Link onClick={() => store.dispatch('setPanelOpen', !panelOpen)}>
                                         <Spin
                                             toggled={panelOpen}
@@ -238,15 +237,21 @@ const MyApp = () => {
                                     </Link>
                                     <NavTitle sliding>
                                         <img src='/assets/apex-logo.png' height="60px" alt=""
-                                        style={{
-                                            opacity: panelOpen ? 0 : 1,
-                                            marginLeft:panelOpen ? '-300px': '0px',
-                                            transition: 'opacity 0.4s ease-in-out, margin 0.4s ease-in-out',
-                                        }}
+                                             style={{
+                                                 opacity: panelOpen ? 0 : 1,
+                                                 marginLeft: panelOpen ? '-300px' : '0px',
+                                                 transition: 'opacity 0.4s ease-in-out, margin 0.4s ease-in-out',
+                                             }}
                                         />
                                     </NavTitle>
-                                </NavLeft>
-                                <NavRight>
+                                </NavLeft> :
+                                    <NavLeft>
+                                        <NavTitle sliding>
+                                            <img src='/assets/apex-logo.png' height="60px" alt=""/>
+                                        </NavTitle>
+                                    </NavLeft>
+                                }
+                                {isLoggedIn && <NavRight>
                                     {/*Basket*/}
                                     <Link href="/basket/" style={{marginRight: "10px"}}>
                                         <Icon f7="cart_fill" size="32px" color="black"/>
@@ -308,7 +313,7 @@ const MyApp = () => {
                                         <Icon f7="person_alt_circle_fill" size="32px" color="black"/>
                                     </Link>
 
-                                </NavRight>
+                                </NavRight>}
                             </Navbar>
                                 {/*<View id="view-home" main url="/"/>*/}
                                 {/*<View id="view-message" name="message" url="/messages/"/>*/}
@@ -326,7 +331,7 @@ const MyApp = () => {
 
                             {/* Settings View */}
                             <View id="view-profile" name="profile" tab url="/profile/"/>
-
+                                <View id="view-login" name="login" tab url="/login/"/>
                             </Views>
                             </Page>
                             </Page>
