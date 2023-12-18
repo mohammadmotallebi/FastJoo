@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () { // this is the default route
-   // show index page in resources/views/index.blade.php
+   // show index page in resources/repair/www/index.blade.php
     return view('index');
 });
 

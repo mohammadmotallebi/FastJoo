@@ -33,13 +33,12 @@ export default async () => {
         laravel({
             input: [
                 'resources/repair/src/js/app.js',
-                'resources/repair/src/css/app.css',
             ],
             refresh: true,
 
         }),
         react({
-            include: ['resources/repair/src/js/**/*.{jsx,tsx,js,ts}'],
+            include: ['resources/repair/src/**/*.{jsx,tsx,js,ts}'],
         }),
     ],
         // server: {
