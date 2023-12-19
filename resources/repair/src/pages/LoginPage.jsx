@@ -24,7 +24,7 @@ export default ({f7router}) => {
     const signIn = () => {
         // localStorage.setItem('email', email);
         // localStorage.setItem('password', password);
-        const url = `${config.API_URL}/login`;
+        const url = `${import.meta.env.VITE_API_URL}/login`;
         const data = {email, password};
          fetch(url, {
             method: 'POST',

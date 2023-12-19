@@ -25,7 +25,7 @@ const store = createStore({
     },
     actions: {
         async getUser({ state, dispatch }) {
-            await fetch(`${config.API_URL}/auth`,{
+            await fetch(`${import.meta.env.VITE_API_URL}/auth`,{
                 method: 'GET',
                 headers: config.HEADER
             }).then(res => res.json())

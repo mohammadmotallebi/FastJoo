@@ -7,21 +7,21 @@ import {
     Message,
     Messagebar,
     Link,
-    f7, f7ready
+    f7, f7ready,useStore
 } from 'framework7-react';
 import {getMessages} from "../api/API";
 import {useQuery} from "react-query";
 import store from "../js/store";
-import {config} from "dotenv";
+import config from "../config";
 
 
-const MessagePage = ({f7router}) => {
+const MessagePage = ({f7router, user}) => {
     const [messagesData, setMessagesData] = useState([]);
     const [messageText, setMessageText] = useState('');
     const [attachments, setAttachments] = useState([]);
     const [sheetVisible, setSheetVisible] = useState(false);
     const [typingMessage, setTypingMessage] = useState(null);
-    const currentUser = f7.params.user;
+    const userStored = useStore(store, 'user')
 
     const messagesEndRef = useRef(null);
     const images = [
@@ -35,44 +35,25 @@ const MessagePage = ({f7router}) => {
         'https://cdn.framework7.io/placeholder/people-100x100-10.jpg',
     ];
 
-    const {data: messages, isLoading} = useQuery('messages', getMessages,{
-        refetchInterval: currentUser?.logged_in ? 6000 : false,
+    const {data, isLoading,isFetched, refetch} = useQuery('messages', getMessages,{
+        refetchInterval: userStored?.logged_in ? 6000 : false,
         refetchIntervalInBackground: true,
-        refetchOnWindowFocus: false,
+        refetchOnWindowFocus: false
     });
 
 
-    useEffect(() => {
-        f7ready((f7) => {
-            f7.store.dispatch('getUser');
-            console.log('MessagePage => ',currentUser)
-            if (messages) {
-                setMessagesData(messages.messages);
-            }
-            console.log(messages)
-        });
-    }, [isLoading,messages]);
-
     const sendMessage = () => {
-        console.log('MessagePage: ',currentUser)
+
         const text = messageText.trim();
         if (text.length === 0) return;
         setAttachments([]);
         setMessageText('');
         setSheetVisible(false);
-        setMessagesData([
-            ...messagesData,
-            {
-                text: text,
-                name: currentUser.value.name,
-            },
-        ]);
-        messagesEndRef.current.scrollIntoView({behavior: 'smooth'});
-        fetch(`${config.API_URL}/send-message`, {
+        fetch(`${import.meta.env.VITE_API_URL}/send-message`, {
             method: 'POST',
-            headers: config.API_URL,
+            headers: config.HEADER,
             body: JSON.stringify({
-                user_id: currentUser.value.id,
+                sender_id: userStored.id,
                 message: text,
             }),
         })
@@ -81,9 +62,21 @@ const MessagePage = ({f7router}) => {
                 console.log(res);
             });
     };
+
+    // const loadMessages =  () => {
+    //     refetch().then((data) => {
+    //         setMessagesData([...data.data.messages]);
+    //         console.log('MessagePage: ',data.data.messages)
+    //         messagesEndRef.current.scrollIntoView({behavior: 'smooth'});
+    //     });
+    // }
+    //
+    // useEffect(() => {
+    //     console.log('MessagePage: ',data)
+    // }, [isLoading]);
+
     return (
         <Page noToolbar={true} name={"messages"}>
-
             <Navbar title="Messages"/>
 
             <Messagebar
@@ -104,27 +97,15 @@ const MessagePage = ({f7router}) => {
 
             <Messages ref={messagesEndRef} scrollMessagesOnEdge={true} >
 
-                {messagesData?.map((message, index) => (
+                {!isLoading && data.messages?.map((message, index) => (
                     <Message
                         key={index}
-                        type={message.user_id === currentUser?.value?.id ? 'sent' : 'received'}
-                        name={message.user.name}
+                        type={message.sender_id === userStored.id ? 'sent' : 'received'}
                         tail={true}
                     >
                         <span slot="text" dangerouslySetInnerHTML={{__html: message.message}}/>
                     </Message>
                 ))}
-                {typingMessage && (
-                    <Message
-                        type="received"
-                        typing={true}
-                        first={true}
-                        last={true}
-                        tail={true}
-                        header={`${typingMessage.name} is typing`}
-                        avatar={typingMessage.avatar}
-                    />
-                )}
             </Messages>
         </Page>
     );

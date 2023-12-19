@@ -17,7 +17,6 @@ import {
     Block,
     useStore, List, ListItem, Icon, NavLeft, NavTitle, BlockHeader
 } from 'framework7-react';
-
 import capacitorApp from '../js/capacitor-app';
 import routes from '../js/routes';
 import store from '../js/store';
@@ -30,10 +29,11 @@ const MyApp = () => {
     const [password, setPassword] = useState('');
     const [userLoggedIn, setUserLoggedIn] = useState(false);
     const device = getDevice();
-    const user = useStore(store, 'user')
+    const userStored = useStore(store, 'user')
     const isLoggedIn = useStore(store, 'isLoggedIn');
     const panelOpen = useStore(store, 'panelOpen');
     const [contentWidth, setContentWidth] = useState(f7?.width);
+    const [currentUser, setCurrentUser] = useState({});
     // Framework7 Parameters
     const f7params = {
         name: 'ApexElectro Renewal', // App name
@@ -90,9 +90,8 @@ const MyApp = () => {
         // App routes
         routes,
         // Register service worker (only on production build)
-        serviceWorker: process.env.NODE_ENV === 'production' ? {
-            path: '/service-worker.js',
-        } : {},
+        path: './service-worker.js',
+        scope: '/',
         // Input settings
         input: {
             scrollIntoViewOnFocus: device.capacitor,
@@ -103,49 +102,57 @@ const MyApp = () => {
             iosOverlaysWebView: true,
             androidOverlaysWebView: false,
         },
-        // user
-    };
-    // f7ready(() => {
-    //     // console.log('f7ready', store.getters.user)
-    //     f7params.store.dispatch('getUser')
-    //     const user = f7params.store.getters.user
-    //     // f7params.store.getters.user.onUpdated(data => {
-    //     //     console.log('user updated', data)
-    //     //     if (data?.logged_in) {
-    //     //         setUserLoggedIn(true)
-    //     //     } else {
-    //     //         setUserLoggedIn(false)
-    //     //     }
-    //     // })
-    //     // console.log(isLoggedIn)
-    //     // Init capacitor APIs (see capacitor-app.js)
-    //     if (f7.device.capacitor) {
-    //         capacitorApp.init(f7);
-    //     }
-    //     // Call F7 APIs here
-    // });
-    const handleContentWidth = () => {
-        if (panelOpen && isLoggedIn) {
-            setContentWidth(f7.width - document.getElementById("panel-nested").offsetWidth)
-        } else {
-            setContentWidth(f7.width)
+        on: {
+            init: async function () {
+
+            },
+            pageInit: function () {
+                console.log('Page initialized');
+            }
+        }
+    }
+        // f7ready(({f7}) => {
+        //     store.getters.user.onUpdated((user) => {
+        //        f7params.user = user
+        //     });
+        // });
+        const handleContentWidth = () => {
+            if (panelOpen && isLoggedIn) {
+                setContentWidth(f7.width - document.getElementById("panel-nested").offsetWidth)
+            } else {
+                setContentWidth(f7.width)
+            }
+
         }
 
-    }
-
-    if (device.desktop) {
+        if(device.desktop
+)
+    {
         useEffect(() => {
-
             handleContentWidth()
         }, [panelOpen, isLoggedIn])
     }
+    useEffect(() => {
+        f7ready(() => {
+            console.log('Directory : ', document.location.hostname)
+            console.log('f7ready', f7);
+            f7.store.dispatch('getUser')
+            if (f7.device.capacitor) {
+                capacitorApp.init(f7);
+            }
+        });
+        window.addEventListener('resize', handleContentWidth)
+        return () => {
+            window.removeEventListener('resize', handleContentWidth)
+        }
+    }, [])
 
 
     const queryClient = new QueryClient();
     return (
         <QueryClientProvider client={queryClient}>
 
-            <App {...f7params}>
+            <App {...f7params} user={userStored}>
 
                 {/* Left panel with cover effect*/}
                 {/*<Panel left cover dark >*/}
@@ -206,6 +213,9 @@ const MyApp = () => {
                                     </ListItem>
                                     <ListItem link='/messages/' iconIos="f7:text_bubble_fill" iconMd="material:message" title="Messages">
                                         <Icon md="material:message" ios="f7:text_bubble_fill" slot="media" size={24}/>
+                                    </ListItem>
+                                    <ListItem link='/users/' iconIos="f7:person_2_fill" iconMd="material:person" title="Users">
+                                        <Icon md="material:person" ios="f7:person_2_fill" slot="media" size={24}/>
                                     </ListItem>
                                     <ListItem link='/settings/' iconIos="f7:gear" iconMd="material:settings" title="Settings">
                                         <Icon md="material:settings" ios="f7:gear" slot="media" size={24}/>
@@ -334,6 +344,7 @@ const MyApp = () => {
                                     <View id="view-profile" name="profile" tab url="/profile/"/>
 
                                     <View id="view-login" name="login" tab url="/login/"/>
+                                    <View id="view-users" name="users" tab url="/users/"/>
                                     <View id="view-register" name="register" tab url="/register/"/>
                                     <View id="view-forgot-password" name="forgot-password" tab url="/forgot-password/"/>
                                 </Views>
@@ -372,4 +383,4 @@ const MyApp = () => {
         </QueryClientProvider>
     )
 }
-export default MyApp;
+    export default MyApp;

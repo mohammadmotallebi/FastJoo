@@ -12,7 +12,11 @@ class MessageController extends Controller
     // get all messages
     public function getMessages(): \Illuminate\Http\JsonResponse
     {
-        $messages = Message::with('user')->where('user_id', auth()->user()->id)->orWhere('admin_id', auth()->user()->id)->get();
+
+        $messages = Message::where('sender_id', auth()->user()->id)
+            ->orWhere('receiver_id', auth()->user()->id)
+            ->orderBy('sent_at')
+            ->get();
 
 
         return response()->json([
@@ -27,8 +31,8 @@ class MessageController extends Controller
     public function sendMessage(Request $request): \Illuminate\Http\JsonResponse
     {
         $message = Message::create([
-            'user_id' => auth()->user()->id,
-            'admin_id' => 1,
+            'sender_id' => auth()->user()->id,
+            'receiver_id' => $request->receiver_id,
             'message' => $request->message,
             'sent_at' => now()->format('Y-m-d H:i:s'),
             'status' => 'unread'

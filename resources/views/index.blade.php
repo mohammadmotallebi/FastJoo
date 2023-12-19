@@ -15,19 +15,22 @@
     <meta name="theme-color" content="#fff">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
-    <title>My App</title>
+    <title>ApexElectro Renewal</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="{!! asset('/icons/apple-touch-icon.png') !!}">
-    <link rel="icon" href="{!! asset('favicon.ico') !!}">
-    <link rel="manifest" href="{!! asset('manifest.json') !!}">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="icon" href="favicon.ico">
+    <link rel="manifest" href="manifest.json">
+
     <!-- built styles file will be auto injected -->
-    @viteReactRefresh
+
 </head>
 <body>
 <div id="app"></div>
 
+@viteReactRefresh
+{{--Register  Service Worker --}}
 
 @vite('resources/repair/src/js/app.js')
 </body>

@@ -1,33 +1,13 @@
 {
-  "id": "com.apex.electronics.repair",
   "name": "Apex Electronics Repair",
   "short_name": "AER",
   "description": "Repairing All Electronics And Electrical Stuff in Apex",
   "lang": "en-US",
-  "start_url": "./",
-  "scope": ".",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#007aff",
   "theme_color": "#007aff",
-  "author": "Mohammad Motalebi",
-    "version": "1.0.0",
-    "orientation": "portrait",
-  "screenshots": [
-    {
-      "src": "/assets/(iPhone 12 Pro).png",
-      "sizes": "1170x2532",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Wonder Widgets"
-    },
-    {
-      "src": "/assets/desktop.png",
-      "sizes": "1921x944",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Wonder Widgets"
-    }
-  ],
+
   "icons": [
     {
       "src": "/icons/128x128.png",

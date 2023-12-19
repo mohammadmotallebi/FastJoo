@@ -1,6 +1,4 @@
 {
-  "API_URL":"http://10.0.0.94:8000/api",
-  "X_API_KEY":"x4CsiyWKKNSl1P3FS2vWPwiGhwTLdqUCVynogB3rEvFtRJLTs8aEBZywfAAL",
   "HEADER": {
     "Content-Type": "application/json",
     "Accept": "application/json",

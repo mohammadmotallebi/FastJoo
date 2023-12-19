@@ -39,6 +39,12 @@ Route::middleware(['auth:sanctum', 'cors'])->prefix('api')->group(static functio
     Route::post('/get-item', [\App\Http\Controllers\ItemController::class, 'getItem']);
     Route::post('/get-messages', [\App\Http\Controllers\MessageController::class, 'getMessages']);
     Route::post('/send-message', [\App\Http\Controllers\MessageController::class, 'sendMessage']);
+
+    Route::get('/get-users/{order}/{by}', [\App\Http\Controllers\UserController::class, 'getUsers']);
+    Route::get('/get-user/{id}', [\App\Http\Controllers\UserController::class, 'getUser']);
+    Route::delete('/delete-user/{id}', [\App\Http\Controllers\UserController::class, 'deleteUser']);
+    Route::post('/update-user/{id}', [\App\Http\Controllers\UserController::class, 'updateUser']);
+    Route::post('/add-user', [\App\Http\Controllers\UserController::class, 'addUser']);
 //
     Route::get('/is-admin', function (Request $request) {
         return currentUser('name');

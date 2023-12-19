@@ -9,16 +9,16 @@ import {
 import {getDevice, Dom7} from 'framework7';
 import config from "../config";
 import {useQuery} from "react-query";
-import {getItemsList, deleteItemById} from "../api/API";
+import {getUsers, deleteUser} from "../api/API";
 import {Divider, Steps} from 'rsuite';
 import { Grid, Row, Col } from 'rsuite';
 import store from "../js/store";
 
 
 const $$ = Dom7;
-const HomePage = ({f7router}) => {
+export default ({f7router}) => {
 
-    const [items, setItems] = React.useState(null);
+    const [users, setUsers] = React.useState(null);
     const [tableData, setTableData] = React.useState([]);
     const notificationWithButton = React.useRef(null);
     const [orderBy, setOrderBy] = React.useState({order: 'asc', by: 'name'});
@@ -55,22 +55,22 @@ const HomePage = ({f7router}) => {
         notificationWithButton.current.open();
     };
     const device = getDevice();
-    const {data, isLoading, error, refetch} = useQuery({queryKey:'items', queryFn: () =>  getItemsList(orderBy), options:{
-        refetchOnWindowFocus: true,
-        staleTime: 0,
-        cacheTime: 0,
-        refetchInterval: 0,
-        onSuccess: (data) => {
-            setTableData(data.items)
-        },
-    }});
+    const {data, isLoading, error, refetch} = useQuery({queryKey:'users', queryFn: () =>  getUsers(orderBy), options:{
+            refetchOnWindowFocus: true,
+            staleTime: 0,
+            cacheTime: 0,
+            refetchInterval: 0,
+            onSuccess: (data) => {
+                setTableData(data.items)
+            },
+        }});
     const handleDelete = (id) => {
-        f7.dialog.confirm('Are you sure you want to delete this item?', () => {
-            deleteItemById(id).then((res) => {
+        f7.dialog.confirm('Are you sure you want to delete this users?', () => {
+            deleteUser(id).then((res) => {
                 if (res.success) {
                     showNotificationWithButton({
                         title: 'Success',
-                        text: 'Item deleted successfully',
+                        text: 'User deleted successfully',
                         closeTimeout: 2000,
                         icon: '<i class="icon f7-icons color-green">checkmark_alt_circle_fill</i>',
                     })
@@ -107,29 +107,29 @@ const HomePage = ({f7router}) => {
 
         const by = $$(e.target).data('sort-id');
         console.log(order, by)
-        await getItemsList({order, by}).then((res) => {
-            setTableData(res.items)
+        await getUsers({order, by}).then((res) => {
+            setTableData(res.users)
         })
     }
 
     const loadData = async (done) => {
         await refetch(orderBy).then((res) => {
             console.log('TData',res)
-            setTableData(res.data.items)
+            setTableData(res.data.users)
         })
         console.log(data)
         if (isLoading) {
-            setItems(<Block className={'text-align-center'}><Preloader color="multi" size={50}/> </Block>);
+            setUsers(<Block className={'text-align-center'}><Preloader color="multi" size={50}/> </Block>);
         }
         if (error) {
-            setItems(<Block inset strong className={'text-align-center'}>Error Loading Items</Block>);
+            setUsers(<Block inset strong className={'text-align-center'}>Error Loading Items</Block>);
         }
         if (!isLoading && data) {
-            if (data.items?.length === 0) {
-                setItems(<Block inset strong className={'text-align-center'}>No Items Found</Block>);
+            if (data.users?.length === 0) {
+                setUsers(<Block inset strong className={'text-align-center'}>No Items Found</Block>);
             } else {
                 if(!device.desktop){
-                    setItems(data.items?.map((item, index) => (
+                    setUsers(data.users?.map((item, index) => (
                         <Block strong key={index}>
                             <BlockHeader><h4>{item.name}</h4></BlockHeader>
                             <Grid fluid>
@@ -201,20 +201,20 @@ const HomePage = ({f7router}) => {
 
                 {/* Page content */}
                 {!device.desktop ? <Block>
-                        <Button bgColor='green_75' color='white' large onClick={() => f7router.navigate('/add/')}>
-                            <Icon f7={'plus'} size={device.ios ? 'large' : 'small'} style={{marginRight: '10px'}}></Icon>
-                            Add Item
-                        </Button>
-                    </Block> : null}
+                    <Button bgColor='green_75' color='white' large onClick={() => f7router.navigate('/add/')}>
+                        <Icon f7={'plus'} size={device.ios ? 'large' : 'small'} style={{marginRight: '10px'}}></Icon>
+                        Add Item
+                    </Button>
+                </Block> : null}
 
                 {/*My Item with item type and brand and picture item edit and item delete*/}
                 <Card className="data-table data-table-collapsible data-table-init">
                     <CardHeader>
                         <div className="data-table-actions" style={{marginRight:'auto', marginLeft:'unset'}}>
                             <Button bgColor='green_75' color='white' large onClick={() => f7router.navigate('/add/')}>
-                            <Icon f7={'plus'} size={device.ios ? 'large' : 'small'} style={{marginRight: '10px'}}></Icon>
-                            Add Item
-                        </Button>
+                                <Icon f7={'plus'} size={device.ios ? 'large' : 'small'} style={{marginRight: '10px'}}></Icon>
+                                Add Item
+                            </Button>
                         </div>
                         <Input
                             type="text"
@@ -225,10 +225,7 @@ const HomePage = ({f7router}) => {
                                 const filteredData = data.items.filter((item) => {
                                     return (
                                         item.name.toLowerCase().indexOf(query) >= 0 ||
-                                        item.brand_name.toLowerCase().indexOf(query) >= 0 ||
-                                        item.type_name.toLowerCase().indexOf(query) >= 0 ||
-                                        item.serial.toLowerCase().indexOf(query) >= 0 ||
-                                        item.model.toLowerCase().indexOf(query) >= 0
+                                        item.email.toLowerCase().indexOf(query) >= 0
                                     );
                                 });
                                 console.log(filteredData)
@@ -248,11 +245,8 @@ const HomePage = ({f7router}) => {
                                 <th className="label-cell text-align-center sortable-cell" data-sort-id='name'
                                     onClick={handleSort}
                                 >Name</th>
-                                <th className="numeric-cell text-align-center sortable-cell" data-sort-id='brand_name' onClick={handleSort}>Brand</th>
-                                <th className="numeric-cell text-align-center sortable-cell" data-sort-id='type_name' onClick={handleSort}>Type</th>
-                                <th className="numeric-cell text-align-center sortable-cell"  data-sort-id='model' onClick={handleSort}>Model</th>
-                                <th className="numeric-cell text-align-center sortable-cell" data-sort-id='serial' onClick={handleSort}>Serial</th>
-                                <th className="numeric-cell text-align-center sortable-cell">Status</th>
+                                <th className="numeric-cell text-align-center sortable-cell" data-sort-id='name' onClick={handleSort}>Name</th>
+                                <th className="numeric-cell text-align-center sortable-cell" data-sort-id='email' onClick={handleSort}>Email</th>
                                 <th className="numeric-cell text-align-center" data-sortable="true">Actions</th>
                             </tr>
                             </thead>
@@ -260,10 +254,7 @@ const HomePage = ({f7router}) => {
                             {tableData?.map((item, index) => (
                                 <tr key={index} style={{textAlign: 'center'}}>
                                     <td className="label-cell text-align-center">{item.name}</td>
-                                    <td className="numeric-cell text-align-center">{item.brand_name}</td>
-                                    <td className="numeric-cell text-align-center">{item.type_name}</td>
-                                    <td className="numeric-cell text-align-center">{item.model}</td>
-                                    <td className="numeric-cell text-align-center">{item.serial}</td>
+                                    <td className="numeric-cell text-align-center">{item.email}</td>
                                     <td className="numeric-cell text-align-center">
                                         {item.status === 'pending' ? <span className="badge color-red">Pending</span> : null}
                                     </td>
@@ -315,8 +306,7 @@ const HomePage = ({f7router}) => {
             </Block>
             {/*My Item with item type and brand and picture item edit and item delete*/}
             <BlockTitle>My Items</BlockTitle>
-            {items}
+            {users}
         </Page>
     )
 };
-export default HomePage;

@@ -2,6 +2,7 @@
   "cwd": "C:\\MyProject\\FastJoo\\resources\\repair",
   "type": [
     "pwa",
+    "web",
     "capacitor"
   ],
   "name": "Apex Electronics Repair",

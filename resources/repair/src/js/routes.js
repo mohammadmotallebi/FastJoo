@@ -10,15 +10,16 @@ import Profile from "../pages/Profile";
 import config from "../config.json";
 import Forgot from "../pages/Forgot";
 import Register from "../pages/Register";
+import UsersPage from "../pages/Users";
 
 
 const authenticate = async () => {
-    const auth = await fetch(`${config.API_URL}/auth`, {
+    const auth = await fetch(`${import.meta.env.VITE_API_URL}/auth`, {
         method: 'GET',
         credentials: 'include',
         headers: {
             'Accept': 'application/json',
-            'X-API-KEY': config.X_API_KEY
+            'X-API-KEY': import.meta.env.VITE_X_API_KEY
         }
     })
     const authData = await auth.json()
@@ -123,7 +124,7 @@ const routes = [
     {
         path: '/logout/',
         async: function ({app, to, resolve}) {
-            fetch(`${config.API_URL}/logout`, {
+            fetch(`${import.meta.env.VITE_API_URL}/logout`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: config.HEADER
@@ -140,6 +141,10 @@ const routes = [
                     console.log(err);
                 });
         },
+    },
+    {
+        path: '/users/',
+        component: UsersPage,
     },
     {
         path: '(.*)',
