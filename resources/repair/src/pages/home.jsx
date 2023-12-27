@@ -11,7 +11,7 @@ import config from "../config";
 import {useQuery} from "react-query";
 import {getItemsList, deleteItemById} from "../api/API";
 import {Divider, Steps} from 'rsuite';
-import { Grid, Row, Col } from 'rsuite';
+import {Grid, Row, Col} from 'rsuite';
 import store from "../js/store";
 
 
@@ -55,15 +55,17 @@ const HomePage = ({f7router}) => {
         notificationWithButton.current.open();
     };
     const device = getDevice();
-    const {data, isLoading, error, refetch} = useQuery({queryKey:'items', queryFn: () =>  getItemsList(orderBy), options:{
-        refetchOnWindowFocus: true,
-        staleTime: 0,
-        cacheTime: 0,
-        refetchInterval: 0,
-        onSuccess: (data) => {
-            setTableData(data.items)
-        },
-    }});
+    const {data, isLoading, error, refetch} = useQuery({
+        queryKey: 'items', queryFn: () => getItemsList(orderBy), options: {
+            refetchOnWindowFocus: true,
+            staleTime: 0,
+            cacheTime: 0,
+            refetchInterval: 0,
+            onSuccess: (data) => {
+                setTableData(data.items)
+            },
+        }
+    });
     const handleDelete = (id) => {
         f7.dialog.confirm('Are you sure you want to delete this item?', () => {
             deleteItemById(id).then((res) => {
@@ -98,10 +100,10 @@ const HomePage = ({f7router}) => {
 
     const handleSort = async (e) => {
         let order = 'asc';
-        if($$(e.target).hasClass('sortable-desc')) {
+        if ($$(e.target).hasClass('sortable-desc')) {
             order = 'desc'
         }
-        if($$(e.target).hasClass('sortable-asc')){
+        if ($$(e.target).hasClass('sortable-asc')) {
             order = 'asc'
         }
 
@@ -114,7 +116,7 @@ const HomePage = ({f7router}) => {
 
     const loadData = async (done) => {
         await refetch(orderBy).then((res) => {
-            console.log('TData',res)
+            console.log('TData', res)
             setTableData(res.data.items)
         })
         console.log(data)
@@ -128,7 +130,7 @@ const HomePage = ({f7router}) => {
             if (data.items?.length === 0) {
                 setItems(<Block inset strong className={'text-align-center'}>No Items Found</Block>);
             } else {
-                if(!device.desktop){
+                if (!device.desktop) {
                     setItems(data.items?.map((item, index) => (
                         <Block strong key={index}>
                             <BlockHeader><h4>{item.name}</h4></BlockHeader>
@@ -193,7 +195,7 @@ const HomePage = ({f7router}) => {
 
     }
 
-    if(device.desktop){
+    if (device.desktop) {
         return (
             <Page name="home" ptrMousewheel={true} onPtrRefresh={handleRefresh} ptr>
                 {/* Top Navbar */}
@@ -201,20 +203,20 @@ const HomePage = ({f7router}) => {
 
                 {/* Page content */}
                 {!device.desktop ? <Block>
-                        <Button bgColor='green_75' color='white' large onClick={() => f7router.navigate('/add/')}>
-                            <Icon f7={'plus'} size={device.ios ? 'large' : 'small'} style={{marginRight: '10px'}}></Icon>
-                            Add Item
-                        </Button>
-                    </Block> : null}
+                    <Button bgColor='green_75' color='white' large onClick={() => f7router.navigate('/add/')}>
+                        <Icon f7={'plus'} size={device.ios ? 'large' : 'small'} style={{marginRight: '10px'}}></Icon>
+                        Add Item
+                    </Button>
+                </Block> : null}
 
                 {/*My Item with item type and brand and picture item edit and item delete*/}
                 <Card className="data-table data-table-collapsible data-table-init">
                     <CardHeader>
-                        <div className="data-table-actions" style={{marginRight:'auto', marginLeft:'unset'}}>
+                        <div className="data-table-actions" style={{marginRight: 'auto', marginLeft: 'unset'}}>
                             <Button bgColor='green_75' color='white' large onClick={() => f7router.navigate('/add/')}>
-                            <Icon f7={'plus'} size={device.ios ? 'large' : 'small'} style={{marginRight: '10px'}}></Icon>
-                            Add Item
-                        </Button>
+                                <Icon f7={'plus'} size={device.ios ? 'large' : 'small'} style={{marginRight: '10px'}}></Icon>
+                                Add Item
+                            </Button>
                         </div>
                         <Input
                             type="text"
@@ -247,10 +249,11 @@ const HomePage = ({f7router}) => {
                             <tr>
                                 <th className="label-cell text-align-center sortable-cell" data-sort-id='name'
                                     onClick={handleSort}
-                                >Name</th>
+                                >Name
+                                </th>
                                 <th className="numeric-cell text-align-center sortable-cell" data-sort-id='brand_name' onClick={handleSort}>Brand</th>
                                 <th className="numeric-cell text-align-center sortable-cell" data-sort-id='type_name' onClick={handleSort}>Type</th>
-                                <th className="numeric-cell text-align-center sortable-cell"  data-sort-id='model' onClick={handleSort}>Model</th>
+                                <th className="numeric-cell text-align-center sortable-cell" data-sort-id='model' onClick={handleSort}>Model</th>
                                 <th className="numeric-cell text-align-center sortable-cell" data-sort-id='serial' onClick={handleSort}>Serial</th>
                                 <th className="numeric-cell text-align-center sortable-cell">Status</th>
                                 <th className="numeric-cell text-align-center" data-sortable="true">Actions</th>
@@ -267,7 +270,7 @@ const HomePage = ({f7router}) => {
                                     <td className="numeric-cell text-align-center">
                                         {item.status === 'pending' ? <span className="badge color-red">Pending</span> : null}
                                     </td>
-                                    <td className="numeric-cell" style={{display:'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                    <td className="numeric-cell" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                                         <Button bgColor='blue_75' color='white' onClick={() => f7router.navigate(`/edit/${item.id}`)}
                                                 style={{
                                                     borderRadius: '6px 0 0 6px',

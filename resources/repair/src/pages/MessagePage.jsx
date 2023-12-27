@@ -7,7 +7,7 @@ import {
     Message,
     Messagebar,
     Link,
-    f7, f7ready,useStore
+    f7, f7ready, useStore
 } from 'framework7-react';
 import {getMessages} from "../api/API";
 import {useQuery} from "react-query";
@@ -35,7 +35,7 @@ const MessagePage = ({f7router, user}) => {
         'https://cdn.framework7.io/placeholder/people-100x100-10.jpg',
     ];
 
-    const {data, isLoading,isFetched, refetch} = useQuery('messages', getMessages,{
+    const {data, isLoading, isFetched, refetch} = useQuery('messages', getMessages, {
         refetchInterval: userStored?.logged_in ? 6000 : false,
         refetchIntervalInBackground: true,
         refetchOnWindowFocus: false
@@ -80,7 +80,7 @@ const MessagePage = ({f7router, user}) => {
             <Navbar title="Messages"/>
 
             <Messagebar
-                style={{bottom:`${f7.theme === 'ios' ? 50 : 56}px`}}
+                style={{bottom: `${f7.theme === 'ios' ? 50 : 56}px`}}
                 //placeholder={placeholder()}
                 //attachmentsVisible={attachmentsVisible()}
                 sheetVisible={true}
@@ -95,7 +95,7 @@ const MessagePage = ({f7router, user}) => {
                 />
             </Messagebar>
 
-            <Messages ref={messagesEndRef} scrollMessagesOnEdge={true} >
+            <Messages ref={messagesEndRef} scrollMessagesOnEdge={true}>
 
                 {!isLoading && data.messages?.map((message, index) => (
                     <Message

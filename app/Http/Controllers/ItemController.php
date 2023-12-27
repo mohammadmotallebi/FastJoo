@@ -27,7 +27,7 @@ class ItemController extends Controller
         try {
             $item = Item::create([
                 'name' => $request->name,
-                'user_id' =>currentUser('id'),
+                'user_id' => currentUser('id'),
                 'brand_id' => $request->brand_id,
                 'type_id' => $request->type_id,
                 'serial' => $request->serial,
@@ -67,7 +67,7 @@ class ItemController extends Controller
             });
             $items->makeHidden(['brand', 'type', 'brand_id', 'type_id']);
             // Sort items
-            if($order === 'asc') {
+            if ($order === 'asc') {
                 $items = collect($items)->sortBy($by);
             } else {
                 $items = collect($items)->sortByDesc($by);
@@ -115,7 +115,7 @@ class ItemController extends Controller
     public function updateItem(Request $request): JsonResponse
     {
         $request->validate([
-               'id' => 'required|integer',
+            'id' => 'required|integer',
             'name' => 'required|string',
             'brand_id' => 'required|integer',
             'type_id' => 'required|integer',
@@ -129,7 +129,7 @@ class ItemController extends Controller
             $item = Item::find($request->id);
             $item->update([
                 'name' => $request->name,
-                'user_id' =>currentUser('id'),
+                'user_id' => currentUser('id'),
                 'brand_id' => $request->brand_id,
                 'type_id' => $request->type_id,
                 'serial' => $request->serial,

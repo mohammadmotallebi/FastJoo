@@ -11,7 +11,7 @@ import config from "../config";
 import {useQuery} from "react-query";
 import {getUsers, deleteUser} from "../api/API";
 import {Divider, Steps} from 'rsuite';
-import { Grid, Row, Col } from 'rsuite';
+import {Grid, Row, Col} from 'rsuite';
 import store from "../js/store";
 
 
@@ -55,7 +55,8 @@ export default ({f7router}) => {
         notificationWithButton.current.open();
     };
     const device = getDevice();
-    const {data, isLoading, error, refetch} = useQuery({queryKey:'users', queryFn: () =>  getUsers(orderBy), options:{
+    const {data, isLoading, error, refetch} = useQuery({
+        queryKey: 'users', queryFn: () => getUsers(orderBy), options: {
             refetchOnWindowFocus: true,
             staleTime: 0,
             cacheTime: 0,
@@ -63,7 +64,8 @@ export default ({f7router}) => {
             onSuccess: (data) => {
                 setTableData(data.items)
             },
-        }});
+        }
+    });
     const handleDelete = (id) => {
         f7.dialog.confirm('Are you sure you want to delete this users?', () => {
             deleteUser(id).then((res) => {
@@ -98,10 +100,10 @@ export default ({f7router}) => {
 
     const handleSort = async (e) => {
         let order = 'asc';
-        if($$(e.target).hasClass('sortable-desc')) {
+        if ($$(e.target).hasClass('sortable-desc')) {
             order = 'desc'
         }
-        if($$(e.target).hasClass('sortable-asc')){
+        if ($$(e.target).hasClass('sortable-asc')) {
             order = 'asc'
         }
 
@@ -114,7 +116,7 @@ export default ({f7router}) => {
 
     const loadData = async (done) => {
         await refetch(orderBy).then((res) => {
-            console.log('TData',res)
+            console.log('TData', res)
             setTableData(res.data.users)
         })
         console.log(data)
@@ -128,7 +130,7 @@ export default ({f7router}) => {
             if (data.users?.length === 0) {
                 setUsers(<Block inset strong className={'text-align-center'}>No Items Found</Block>);
             } else {
-                if(!device.desktop){
+                if (!device.desktop) {
                     setUsers(data.users?.map((item, index) => (
                         <Block strong key={index}>
                             <BlockHeader><h4>{item.name}</h4></BlockHeader>
@@ -193,7 +195,7 @@ export default ({f7router}) => {
 
     }
 
-    if(device.desktop){
+    if (device.desktop) {
         return (
             <Page name="home" ptrMousewheel={true} onPtrRefresh={handleRefresh} ptr>
                 {/* Top Navbar */}
@@ -210,7 +212,7 @@ export default ({f7router}) => {
                 {/*My Item with item type and brand and picture item edit and item delete*/}
                 <Card className="data-table data-table-collapsible data-table-init">
                     <CardHeader>
-                        <div className="data-table-actions" style={{marginRight:'auto', marginLeft:'unset'}}>
+                        <div className="data-table-actions" style={{marginRight: 'auto', marginLeft: 'unset'}}>
                             <Button bgColor='green_75' color='white' large onClick={() => f7router.navigate('/add/')}>
                                 <Icon f7={'plus'} size={device.ios ? 'large' : 'small'} style={{marginRight: '10px'}}></Icon>
                                 Add Item
@@ -244,7 +246,8 @@ export default ({f7router}) => {
                             <tr>
                                 <th className="label-cell text-align-center sortable-cell" data-sort-id='name'
                                     onClick={handleSort}
-                                >Name</th>
+                                >Name
+                                </th>
                                 <th className="numeric-cell text-align-center sortable-cell" data-sort-id='name' onClick={handleSort}>Name</th>
                                 <th className="numeric-cell text-align-center sortable-cell" data-sort-id='email' onClick={handleSort}>Email</th>
                                 <th className="numeric-cell text-align-center" data-sortable="true">Actions</th>
@@ -258,7 +261,7 @@ export default ({f7router}) => {
                                     <td className="numeric-cell text-align-center">
                                         {item.status === 'pending' ? <span className="badge color-red">Pending</span> : null}
                                     </td>
-                                    <td className="numeric-cell" style={{display:'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                    <td className="numeric-cell" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                                         <Button bgColor='blue_75' color='white' onClick={() => f7router.navigate(`/edit/${item.id}`)}
                                                 style={{
                                                     borderRadius: '6px 0 0 6px',

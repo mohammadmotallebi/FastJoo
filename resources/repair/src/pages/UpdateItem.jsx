@@ -96,7 +96,7 @@ export const UpdateItem = ({id}) => {
             })
         })
 
-    }, [isLoading,data, refetch])
+    }, [isLoading, data, refetch])
 
     const handlePreview = (img) => {
         console.log(img)

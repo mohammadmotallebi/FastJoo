@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import {
     Navbar,
     Page,
@@ -8,7 +8,7 @@ import {
     ListItem,
     Block,
     Button,
-    f7, Link, Icon,Toolbar
+    f7, Link, Icon, Toolbar
 } from 'framework7-react';
 import store from "../js/store";
 import config from "../config";
@@ -18,7 +18,7 @@ export default () => {
         <Page>
             <Navbar title="Recover Your Password">
                 <Link slot="left" back>
-                    <Icon f7="multiply_circle_fill" />
+                    <Icon f7="multiply_circle_fill"/>
                 </Link>
             </Navbar>
             <Block strong>

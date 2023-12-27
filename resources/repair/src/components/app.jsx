@@ -111,23 +111,22 @@ const MyApp = () => {
             }
         }
     }
-        // f7ready(({f7}) => {
-        //     store.getters.user.onUpdated((user) => {
-        //        f7params.user = user
-        //     });
-        // });
-        const handleContentWidth = () => {
-            if (panelOpen && isLoggedIn) {
-                setContentWidth(f7.width - document.getElementById("panel-nested").offsetWidth)
-            } else {
-                setContentWidth(f7.width)
-            }
-
+    // f7ready(({f7}) => {
+    //     store.getters.user.onUpdated((user) => {
+    //        f7params.user = user
+    //     });
+    // });
+    const handleContentWidth = () => {
+        if (panelOpen && isLoggedIn) {
+            setContentWidth(f7.width - document.getElementById("panel-nested").offsetWidth)
+        } else {
+            setContentWidth(f7.width)
         }
 
-        if(device.desktop
-)
-    {
+    }
+
+    if (device.desktop
+    ) {
         useEffect(() => {
             handleContentWidth()
         }, [panelOpen, isLoggedIn])
@@ -383,4 +382,4 @@ const MyApp = () => {
         </QueryClientProvider>
     )
 }
-    export default MyApp;
+export default MyApp;
