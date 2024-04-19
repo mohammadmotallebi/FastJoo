@@ -13,7 +13,6 @@ import {
     ListButton,
     f7, Link, Icon,
 } from 'framework7-react';
-import store from "../js/store";
 import config from "../config";
 
 export default ({f7router}) => {
