@@ -3,6 +3,7 @@
     "private": true,
     "version": "1.0.0",
     "description": "My App",
+    "main": "resources/repair/src/js/app.js",
     "repository": "",
     "license": "UNLICENSED",
     "scripts": {

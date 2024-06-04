@@ -30,6 +30,9 @@ export default async () => {
                 input: [
                     'resources/repair/src/js/app.js',
                 ],
+                publicDirectory: PUBLIC_DIR,
+                output: 'public/build',
+                watch: 'resources/repair/src/**/*.{js,jsx,ts,tsx}',
                 refresh: true,
 
             }),
@@ -37,20 +40,18 @@ export default async () => {
                 include: ['resources/repair/src/**/*.{jsx,tsx,js,ts}'],
             })
         ],
-        // server: {
-        //    host: true,
-        //     https: {
-        //         key: fs.readFileSync('./server.key'),
-        //         cert: fs.readFileSync('./server.crt'),
-        //     },
-        //     proxy: {
-        //         '/api': {
-        //             target: 'https://10.0.0.94:8000',
-        //             changeOrigin: true,
-        //             secure: false,
-        //         },
-        //     },
-        // },
+        server: {
+            fs: {
+                strict: true,
+            },
+            proxy: {
+                '/api': {
+                    target: 'http://localhost:8000',
+                    changeOrigin: true,
+                    secure: false,
+                },
+            },
+        },
 
     }
 }

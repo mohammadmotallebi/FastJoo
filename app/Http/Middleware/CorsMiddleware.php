@@ -29,7 +29,7 @@ class CorsMiddleware
     public function handle($request, Closure $next)
     {
             return $next($request)
-                ->header('Access-Control-Allow-Origin', 'http://10.0.0.94:5173')
+                ->header('Access-Control-Allow-Origin', 'http://localhost:5173')
                 ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
                 ->header('Access-Control-Allow-Headers', 'x-api-key, Content-Type, X-Auth-Token, Origin, Authorization, X-Requested-With, Accept, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Credentials, Access-Control-Max-Age')
                 ->header('Access-Control-Allow-Credentials', 'true')

@@ -11,6 +11,7 @@ import config from "../config.json";
 import Forgot from "../pages/Forgot";
 import Register from "../pages/Register";
 import UsersPage from "../pages/Users";
+import ItemsPage from "../pages/Items";
 
 
 const authenticate = async () => {
@@ -63,7 +64,11 @@ const routes = [
                     }
                 );
             });
-        },
+        }
+    },
+    {
+        path: '/items/',
+        component: ItemsPage
     },
     {
         path: '/about/',

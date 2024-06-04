@@ -207,6 +207,9 @@ const MyApp = () => {
                                     <ListItem link='/' title="Home">
                                         <Icon md="material:home" ios="f7:house_fill" slot="media" size={24}/>
                                     </ListItem>
+                                    <ListItem link='/items/' iconIos="f7:cart_fill" iconMd="material:square_list" title="Items">
+                                        <Icon md="material:square_list" ios="f7:square_list" slot="media" size={24}/>
+                                    </ListItem>
                                     <ListItem link='/shopping/' iconIos="f7:cart_fill" iconMd="material:shopping_cart" title="Shop">
                                         <Icon md="material:shopping_cart" ios="f7:cart_fill" slot="media" size={24}/>
                                     </ListItem>
@@ -331,7 +334,8 @@ const MyApp = () => {
                                 <Views tabs className="safe-areas">
                                     <View id="view-home" main tab tabActive url="/"/>
 
-                                    {/* Catalog View */}
+                                    {/* Items View */}
+                                    <View id="view-items" name="items" tab url="/items/"/>
 
                                     {/* Catalog View */}
                                     <View id="view-catalog" name="catalog" tab url="/shopping/"/>
@@ -355,6 +359,7 @@ const MyApp = () => {
                     <Views tabs className="safe-areas">
                         <Toolbar tabbar icons bottom>
                             <Link tabLink="#view-home" tabLinkActive iconIos="f7:house_fill" iconMd="material:home" text="Dash"/>
+                            <Link tabLink="#view-items" iconIos="f7:cart_fill" iconMd="material:square_list" text="Items"/>
                             <Link tabLink="#view-catalog" iconIos="f7:cart_fill" iconMd="material:shopping_cart" text="Shop"/>
                             <Link tabLink="#view-message" iconIos="f7:text_bubble_fill" iconMd="material:message" text="Messages"/>
                             <Link tabLink="#view-settings" iconIos="f7:gear" iconMd="material:settings" text="Settings"/>
@@ -362,6 +367,9 @@ const MyApp = () => {
 
                         {/* Your main view/tab, should have "view-main" class. It also has "tabActive" prop */}
                         <View id="view-home" main tab tabActive url="/"/>
+
+                        {/* Items View */}
+                        <View id="view-items" name="items" tab url="/items/"/>
 
                         {/* Catalog View */}
                         <View id="view-catalog" name="catalog" tab url="/catalog/"/>
